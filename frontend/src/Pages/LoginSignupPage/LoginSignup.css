@@ -1,0 +1,200 @@
+/* LoginSignup.css */
+
+.login-signup-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 100vh;
+}
+@media (min-width: 1024px) {
+  .login-signup-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.login-signup-form-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.login-signup-form-box {
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-signup-logo {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-signup-icon-box {
+  width: 48px;
+  height: 48px;
+  background-color: rgba(59, 130, 246, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  margin: 0 auto;
+  transition: background-color 0.3s ease;
+}
+
+.login-signup-icon {
+  color: #3b82f6;
+  width: 24px;
+  height: 24px;
+}
+
+.login-signup-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+.login-signup-description {
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+.login-signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.login-signup-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-signup-label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.login-signup-input-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.login-signup-icon-input {
+  position: absolute;
+  left: 12px;
+  width: 20px;
+  height: 20px;
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.login-signup-input {
+  padding: 0.5rem 0.75rem 0.5rem 2.5rem;
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+}
+
+.login-signup-password-toggle {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.login-signup-submit-button {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.login-signup-submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login-signup-loader {
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
+}
+
+.login-signup-footer {
+  text-align: center;
+  margin-top: 1rem;
+  color: #6b7280;
+}
+
+.login-signup-link {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-signup-auth-pattern {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .login-signup-auth-pattern {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f3f4f6;
+    padding: 3rem;
+  }
+}
+
+.login-signup-auth-content {
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-signup-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.login-signup-square {
+  aspect-ratio: 1;
+  background-color: rgba(59, 130, 246, 0.1);
+  border-radius: 1rem;
+}
+
+.login-signup-animate {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.login-signup-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.login-signup-subtitle {
+  color: #6b7280;
+  font-size: 1rem;
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Black Shirt",
+    "price": 500,
+    "originalPrice": 800,
+    "image": "https://images.bewakoof.com/t1080/men-s-black-oversized-t-shirt-439421-1734427687-1.jpg",
+    "moreImages": "https://images.bewakoof.com/t1080/men-s-black-oversized-t-shirt-439421-1679048742-2.jpg,https://images.bewakoof.com/t1080/men-s-black-oversized-t-shirt-439421-1741253039-4.jpg,https://images.bewakoof.com/t1080/men-s-black-oversized-t-shirt-439421-1679048764-6.jpg",
+    "gender": "male",
+    "discount": 20,
+    "colors": "black,red,blue",
+    "selectedColor": "blue",
+    "sizes": "S,M,L",
+    "outOfStockSize": "L",
+    "lowStockSize": "M",
+    "offer": "combo",
+    "offerDetails": {
+      "productNumber": 2,
+      "comboPrice": 900
+    },
+    "productDescription": "Cotton Shirt",
+    "keyHighlights": [
+      { "title": "Fabric", "value": "100% Cotton" },
+      { "title": "Fit", "value": "Regular Fit" }
+    ]
+  },
+  {
+    "name": "Red Shirt",
+    "price": 500,
+    "originalPrice": 800,
+    "image": "https://images.bewakoof.com/t1080/men-s-red-toxic-typography-oversized-t-shirt-534819-1736761703-1.jpg",
+    "moreImages": "https://images.bewakoof.com/t1080/men-s-red-toxic-typography-oversized-t-shirt-534819-1680169648-2.jpg,https://images.bewakoof.com/t1080/men-s-red-toxic-typography-oversized-t-shirt-534819-1680169653-3.jpg,https://images.bewakoof.com/t1080/men-s-red-toxic-typography-oversized-t-shirt-534819-1680169659-5.jpg",
+    "gender": "male",
+    "discount": 20,
+    "colors": "red,blue",
+    "selectedColor": "blue",
+    "sizes": "S,M,L",
+    "outOfStockSize": "L",
+    "lowStockSize": "M",
+    "offer": "combo",
+    "offerDetails": {
+      "productNumber": 2,
+      "comboPrice": 900
+    },
+    "productDescription": "Cotton Shirt",
+    "keyHighlights": [
+      { "title": "Fabric", "value": "100% Cotton" },
+      { "title": "Fit", "value": "Oversized Fit" }
+    ]
+  }
+]
