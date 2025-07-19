@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./loadingComponent.css";
+import "./LoadingComponent.css";
 
 // Importing loading icons
 import loadingIcon1 from '../../assets/loading-icon-1.png';
