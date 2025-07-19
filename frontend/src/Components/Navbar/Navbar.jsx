@@ -2,7 +2,7 @@
 import { ChevronRight, Heart, Menu, Search, ShoppingBag, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import "./navbar.css";
+import "./Navbar.css";
 import logoSm from "../../assets/logo-sm.png";
 import alternativeProfileImg from "../../assets/alternative-profile-image.png"
 import { useLocation,useNavigate } from 'react-router-dom';
