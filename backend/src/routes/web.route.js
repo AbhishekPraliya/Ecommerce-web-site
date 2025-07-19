@@ -7,11 +7,11 @@ import {
     updateBottomNav,
     getHomeData,
     insertHomeData,
-    updateHeader,
-    updateImageSlider,
-    updateProductSlider,
-    updateTrendingCategories,
-    updateAdvertisementPanel,
+    // updateHeader,
+    // updateImageSlider,
+    // updateProductSlider,
+    // updateTrendingCategories,
+    // updateAdvertisementPanel,
 } from '../controllers/web.controller.js'
 
 // Nav Routes
