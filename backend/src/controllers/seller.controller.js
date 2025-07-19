@@ -313,7 +313,7 @@ export const createMultipleProduct = async (req, res) => {
     try {
         const businessId = req.user.business;
         // console.log("create-many");
-        const productsWithBusiness = req.body.map((prod) => ({
+        const productsWithBusiness = req.body?.map((prod) => ({
             ...prod,
             business: businessId,
         }));

@@ -61,7 +61,7 @@ export const getCartData = async (req, res) => {
 
         if (!user) return res.status(404).json({ message: "User not found" });
 
-        const cartItems = user.cart.map((item,index) => {
+        const cartItems = user.cart?.map((item,index) => {
             const product = item.product;
             return {
                 index:index,

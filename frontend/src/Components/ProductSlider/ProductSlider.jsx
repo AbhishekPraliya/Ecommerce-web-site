@@ -48,13 +48,13 @@ const ProductSlider = ({categoryId,categoryObj}) => {
         <>
             <div className="card-container">
                 <div className='card-container-heading'>
-                    <h2 className='heading-text'>{categoryObj[categoryId].toUpperCase().split("-").join(" ")} FOR {gender==="female"?"WOMEN":"MEN"}</h2>
+                    <h2 className='heading-text'>{categoryObj[categoryId]?.toUpperCase().split("-").join(" ")} FOR {gender==="female"?"WOMEN":"MEN"}</h2>
                 </div>
 
                 <button className="arrow left" onClick={() => scroll('left')}><ChevronLeft className='arrow-icon'/></button>
 
                 <div className="product-scroll-wrapper" ref={scrollRef}>
-                    {products.map((product, index) => (
+                    {products?.map((product, index) => (
                         <ProductCard product={product} key={index} />
                     ))}
                 </div>
