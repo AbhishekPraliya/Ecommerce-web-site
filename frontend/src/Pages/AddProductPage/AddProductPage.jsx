@@ -4,7 +4,7 @@ import "./AddProductPage.css";
 import * as XLSX from "xlsx";
 import Papa from "papaparse";
 import CreateCategoryForm from "../CreateCategoryForm/CreateCategoryForm.jsx"
-import { useAuthStore } from "../../store/useAuthStore.js";
+import { useAuthStore } from "../../Store/useAuthStore.js";
 import { useSellerStore } from "../../Store/useAuthSellerStore.js";
 import { useCategoryStore } from "../../Store/useWebStores/useCategoryStore.js";
 
