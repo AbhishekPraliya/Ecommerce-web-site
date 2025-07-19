@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState,useEffect } from "react";
-import "./businessAccountCreationPage.css";
+import "./BusinessAccountCreationPage.css";
 import {useAuthStore} from "../../Store/useAuthStore.js";
 import {useSellerStore} from "../../Store/useAuthSellerStore.js"
 
