@@ -13,13 +13,28 @@ import { useEffect } from 'react';
 const ProductSlider = ({categoryId,categoryObj}) => {
     const scrollRef = useRef();
     const navigate = useNavigate();
-    const {products} = useDataStore();
+    const {getProductsByCategoryId} = useDataStore();
     const [gender, setGender] = useState()
+    const [products, setProducts] = useState();
+    
 
     useEffect(() => {
     let storedGender = localStorage.getItem("WebGender");
+    console.log("gender=",storedGender)
     setGender(storedGender)
     }, [])
+    
+    useEffect(() => {
+        let storedGender = localStorage.getItem("WebGender");
+        const getProducts=async()=>{
+            console.log("gender=",storedGender)
+            const res = await getProductsByCategoryId({categoryId,gender:storedGender});
+            if(res){
+                setProducts(res);
+            }
+        }
+        categoryId && getProducts();
+    }, [categoryId,getProductsByCategoryId])
     
 
     const scroll = (direction) => {
@@ -44,6 +59,11 @@ const ProductSlider = ({categoryId,categoryObj}) => {
         });
     };
 
+    if(!products?.length){
+        return <div></div>
+    }
+
+
     return (
         <>
             <div className="card-container">
@@ -64,7 +84,7 @@ const ProductSlider = ({categoryId,categoryObj}) => {
                 <div className='bottom-label'>
                     <p
                         className='bottom-label-text'
-                        onClick={()=>navigate('/collection/category1')}
+                        onClick={()=>navigate(`/collection/${categoryObj[categoryId].split(" ").join("-").split("'").join("")}--${categoryId}`)}
                     >Discover More</p>
                 </div>
             </div>

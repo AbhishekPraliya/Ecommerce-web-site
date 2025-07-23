@@ -7,14 +7,20 @@ export const useWebNavStore = create((set) => ({
         applicationName: "",
         logoImage: "",
         logoText: "",
-        topNavItems: [],
         bottomNavItems: [],
     },
-    isLoadingComponent:false,
+    socialMediaLinks: {
+        facebook: '',
+        instagram: '',
+        twitter: '',
+        snapchat: '',
+        youtube: '',
+    },
+    isLoadingComponent: false,
     isLoading: false,
 
-    setIsLoadingComponent: (data)=>{
-        set({isLoadingComponent:data});
+    setIsLoadingComponent: (data) => {
+        set({ isLoadingComponent: data });
     },
 
     getNavBarData: async () => {
@@ -62,6 +68,31 @@ export const useWebNavStore = create((set) => ({
             toast.success("Bottom nav updated");
         } catch (error) {
             toast.error("Failed to update bottom nav", error);
+        }
+    },
+
+
+    // ── GET SOCIAL MEDIA LINKS ──
+    getSocialMediaLinks: async () => {
+        try {
+            const res = await axiosInstance.get('/web/social-media');
+            set({ socialMediaLinks: res.data });
+            return res.data;
+        } catch (error) {
+            console.error("Error fetching social media links:", error);
+            return null;
+        }
+    },
+
+    // ── UPDATE SOCIAL MEDIA LINKS ──
+    updateSocialMediaLinks: async (links) => {
+        try {
+            const res = await axiosInstance.put('/web/social-media', links);
+            set({ socialMediaLinks: res.data });
+            return res.data;
+        } catch (error) {
+            console.error("Error updating social media links:", error);
+            return null;
         }
     },
 }));

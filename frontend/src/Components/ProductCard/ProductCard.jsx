@@ -38,6 +38,10 @@ const ProductCard = ({product,WishListActive}) => {
         setIsProductInWishlist(isInWishlist);
     }, [userWishlist, product?._id, authUser]);
 
+    if(!product){
+        return <div></div>
+    }
+
     return (
         <div className={`product-card ${WishListActive?"":"hover-true"}`} onClick={()=>navigate(`/product/${product.name.toLowerCase().split(" ").join("-").split("'").join("")}--${product._id}`)}>
             <div className="image-container">
@@ -47,7 +51,7 @@ const ProductCard = ({product,WishListActive}) => {
             </div>
             <div className="product-details">
                 <div className='product-details-brand-heart'>
-                    <h2 className="brand-name">{product.businessName || "Business"}</h2>
+                    <h2 className="brand-name">{product?.business?.businessName || product?.businessName || "Business"}</h2>
                     <div
                         onClick={(e) => {
                             e.stopPropagation();

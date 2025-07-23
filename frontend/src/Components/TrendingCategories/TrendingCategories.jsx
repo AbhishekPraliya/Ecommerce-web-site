@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './TrendingCategories.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,7 +11,16 @@ import { useNavigate } from 'react-router-dom';
 const TrendingCategories = ({ trendingCategories,categoryObj }) => {
     // const {navigate}= useNavigate();
     const navigate = useNavigate();
+    const [gender, setGender] = useState('');
     
+    useEffect(() => {
+        let storedGender = localStorage.getItem("WebGender");
+        if(storedGender==='female'){
+            setGender('women');
+        }else{
+            setGender('men');
+        }
+    },[])
 
     return (
         <div className="trending-categories">
@@ -23,10 +32,10 @@ const TrendingCategories = ({ trendingCategories,categoryObj }) => {
                             <img
                                 src={cat.image} alt={cat.name}
                                 className="category-image"
-                                onClick={() => navigate(`/collection/${categoryObj[cat.category]}`)}
+                                onClick={() => navigate(`/collection/${categoryObj[cat.category]}--${cat.category}`)}
                             />
                             <p
-                                onClick={() => navigate(`/collection/${categoryObj[cat.category]}`)}
+                                onClick={() => navigate(`/collection/${categoryObj[cat.category]}--${cat.category}`)}
                                 className="category-name"
                             >{categoryObj[cat.category]}</p>
                         </div>
@@ -36,7 +45,7 @@ const TrendingCategories = ({ trendingCategories,categoryObj }) => {
             <div className='bottom-label'>
                 <p
                     className='bottom-label-text'
-                    onClick={() => navigate('/men--clothing--all')}
+                    onClick={() => navigate(`collection/${gender}s-cloths--trending?Gender=${gender.toUpperCase()}_UNISEX`)}
                 >View All</p>
             </div>
         </div>

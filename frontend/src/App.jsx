@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, } from 'react';
-import { Route, Routes, useLocation  } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import Footer from './Components/Footer/Footer.jsx';
 import Navbar from './Components/Navbar/Navbar';
@@ -21,6 +21,7 @@ import LoadingComponent from './Pages/LoadingComponent/LoadingComponent.jsx';
 import ProductListPage from './Pages/ProductListPage/ProductListPage.jsx';
 import { useAuthStore } from './Store/useAuthStore.js';
 import { useUserStore } from './Store/useAuthUserStore.js';
+import { useDataStore } from './Store/useDataStore.js';
 
 import { useAuth0 } from "@auth0/auth0-react";
 import AddProductPage from './Pages/AddProductPage/AddProductPage.jsx';
@@ -29,22 +30,23 @@ import PrivacyPolicy from './Pages/PrivacyPolicy/PrivacyPolicy.jsx';
 // import {axiosInstance} from "./lib/axios.js"
 
 function App() {
+  const {setGender,gender} = useDataStore()
   const location = useLocation();
-  const {login,authUser} = useAuthStore();
-  const {getUserWishlist} = useUserStore();
-  const { getAccessTokenSilently,getIdTokenClaims,user } = useAuth0();
-  
+  const { login, authUser } = useAuthStore();
+  const { getUserWishlist } = useUserStore();
+  const { getAccessTokenSilently, getIdTokenClaims, user } = useAuth0();
+
 
   useEffect(() => {
     const silentlyLogin = async () => {
       try {
-      await getAccessTokenSilently(); // tries silent login
+        await getAccessTokenSilently(); // tries silent login
         const token = await getIdTokenClaims();
         // const res = await axiosInstance.post("/auth/login", {
         //     token: token.__raw,
         // });
-        console.log('token=',token);
-        
+        console.log('token=', token);
+
       } catch (error) {
         console.log("Silent login failed =", error);
       }
@@ -52,14 +54,14 @@ function App() {
     silentlyLogin();
   }, []);
 
-  useEffect(()=>{
-    const handelLogin= async ()=>{
+  useEffect(() => {
+    const handelLogin = async () => {
       await login(user);
       // console.log("loginWithBusinessAccount",localStorage.getItem("loginWithBusinessAccount"))
       // console.log("loginData",loginData);
     }
     user && handelLogin();
-  },[user])
+  }, [user])
 
   useEffect(() => {
     if (authUser && authUser.role === "user") {
@@ -68,6 +70,18 @@ function App() {
   }, [authUser, getUserWishlist]);
 
 
+  useEffect(() => {
+    let gender = localStorage.getItem("WebGender");
+    if (gender === "female") {
+      console.log("female");
+    } else if (gender === "male") {
+      console.log("male");
+    } else {
+      gender = "male"; // default value
+      setGender(gender);
+      console.log("gender setting", gender);
+    }
+  }, [gender]);
 
   // const {user} = useAuth0();
   // const navigate = useNavigate();
@@ -82,15 +96,15 @@ function App() {
   //     newFavicon.href = '/new-favicon.png';
   //     document.head.appendChild(newFavicon);
   //   }
-      // document.title = 'Welcome to the Vibe';
+  // document.title = 'Welcome to the Vibe';
   // }, []);
-  
+
   // TODO: Add dark mode toggle
   // console.log(window.matchMedia('(prefers-color-scheme: dark)'))
   return (
     <>
 
-      <Navbar/>
+      <Navbar />
       <div className="main">
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -100,24 +114,24 @@ function App() {
           <Route path="/myaccount/:route" element={<MyAccount />} />
           <Route path="/myaccount" element={<MyAccount />} />
           <Route path="/wishlist" element={<WishList />} />
-          <Route path="/cart" element={<CartPage />}/>
-          <Route path="/login" element={<LoginPage/>} />
-          <Route path="/add-products" element={<AddProductPage/>} />
-          <Route path="/product-list" element={<ProductListPage/>} />
-          <Route path="/create-category" element={<CreateCategoryForm/>} />
-          
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/add-products" element={<AddProductPage />} />
+          <Route path="/product-list" element={<ProductListPage />} />
+          <Route path="/create-category" element={<CreateCategoryForm />} />
+
 
           {/* ////////// */}
           {/* <Route path="/login" element={<LoginSignup/>} />
           <Route path="/signup" element={<LoginSignup/>} /> */}
           {/* ///////// */}
 
-          <Route path="/webedit" element={<WebEdit/>} />
-          <Route path="/contactus" element={<ContactUs/>} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy/>} />
-          <Route path="/aboutus/our-story" element={<AboutUs/>} />
-          <Route path="/business" element={<BusinessAccountCreationPage/>} />
-          
+          <Route path="/webedit" element={<WebEdit />} />
+          <Route path="/contactus" element={<ContactUs />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/aboutus/our-story" element={<AboutUs />} />
+          <Route path="/business" element={<BusinessAccountCreationPage />} />
+
           {/* <Route path="*" element={
             <div className="not-found"
               style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 'full' }}>
@@ -126,10 +140,10 @@ function App() {
           } /> */}
         </Routes>
 
-        <LoadingComponent isLoading={false}/>
-        <ScrollToTop/>
+        <LoadingComponent isLoading={false} />
+        <ScrollToTop />
       </div>
-      {location.pathname !== "/" && <Footer/>}
+      {location.pathname !== "/" && <Footer />}
     </>
   )
 }

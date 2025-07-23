@@ -55,6 +55,15 @@ const websiteSchema = new mongoose.Schema({
             ],
         },
     }],
+    socialMediaLinks: {
+        type: {
+            facebook: { type: String, default: "" },
+            instagram: { type: String, default: "" },
+            twitter: { type: String, default: "" },
+            snapchat: { type: String, default: "" },
+            youtube: { type: String, default: "" },
+        },
+    },
 }, { timestamps: true });
 
 const WebsiteData = mongoose.model("WebsiteData", websiteSchema);

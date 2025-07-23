@@ -8,8 +8,10 @@ import WelcomeHeader from "../../Components/WelcomeHeader/WelcomeHeader.jsx"
 import { ArrowUp } from 'lucide-react';
 import { useWebHomeStore } from '../../Store/useWebStores/useWebHomeStore.js';
 import { useCategoryStore } from '../../Store/useWebStores/useCategoryStore.js';
+import { useDataStore } from '../../Store/useDataStore.js';
 
 function HomePage() {
+    const {gender} = useDataStore()
     const { categoryMap,fetchCategories } = useCategoryStore()
     const { getHomeData, homePageData } = useWebHomeStore();
     const [listCount, setListCount] = useState(1);
@@ -30,12 +32,12 @@ function HomePage() {
     }, [categoryMap]);
 
     // Example usage
-    useEffect(() => {
-        const exampleId = Object.keys(categoryObj)[0];
-        if (exampleId) {
-            console.log("Example:", categoryObj[exampleId]); // should print categoryName
-        }
-    }, [categoryObj]);
+    // useEffect(() => {
+    //     const exampleId = Object.keys(categoryObj)[0];
+    //     if (exampleId) {
+    //         console.log("Example:", categoryObj[exampleId]); // should print categoryName
+    //     }
+    // }, [categoryObj]);
 
 
     useEffect(() => {
@@ -51,25 +53,21 @@ function HomePage() {
         handelGetData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    useEffect(() => {
-        let gender = localStorage.getItem("WebGender");
 
-        if (gender === "female") {
-            console.log("female");
-            setGenderData(homePageData[1]);
-        } else if (gender === "male") {
-            console.log("male");
-            homePageData[1] && setGenderData(homePageData[0]);
+    useEffect(() => {
+        let storedGender = localStorage.getItem("WebGender");
+
+        if (storedGender === "female") {
+            // console.log("female");
+            homePageData[1] && setGenderData(homePageData[1]);
+        } else if (storedGender === "male") {
+            // console.log("male");
+            homePageData[0] && setGenderData(homePageData[0]);
         } else {
-            // First time or invalid value
-            gender = "male"; // default value
-            localStorage.setItem("WebGender", gender);
-            console.log("gender setting",gender);
+            storedGender = "male"; // default value
             homePageData[0] && setGenderData(homePageData[0]);
         }
-    }, [homePageData]);
-    // console.log(homePageData);
-    console.log("genderData",genderData);
+    }, [gender,homePageData]);
 
 
 

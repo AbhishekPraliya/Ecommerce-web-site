@@ -5,13 +5,26 @@ import {
     updateLogo,
     updateTopNav,
     updateBottomNav,
-    getHomeData,
+    getHomeData,  /////homeSection
     insertHomeData,
-    // updateHeader,
-    // updateImageSlider,
-    // updateProductSlider,
-    // updateTrendingCategories,
-    // updateAdvertisementPanel,
+    // updateHomeHeader,
+    // insertMaleHeaderData,
+    // insertFemaleHeaderData,
+    // insertMaleProductSliderData,
+    // insertFemaleProductSliderData,
+    // insertMaleTrendingCategoriesData,
+    // insertFemaleTrendingCategoriesData,
+    insertMaleImageSliderData,
+    insertFemaleImageSliderData,
+    insertMaleAdvertisementPanelData,
+    insertFemaleAdvertisementPanelData,
+    updateHomeHeader,
+    insertProductSliderData,
+    insertTrendingCategoriesData,
+    insertImageSliderData,
+    insertAdvertisementPanelData,
+    getSocialMediaLinks,
+    updateSocialMediaLinks,
 } from '../controllers/web.controller.js'
 
 // Nav Routes
@@ -24,10 +37,18 @@ router.put("/navbar/bottom", updateBottomNav);
 router.get("/get/home-data", getHomeData);
 router.post("/insert/home-data", insertHomeData);
 
-// router.put("/home/header", updateHeader);
-// router.put("/home/slider", updateImageSlider);
-// router.put("/home/products", updateProductSlider);
-// router.put("/home/trending", updateTrendingCategories);
-// router.put("/home/ads", updateAdvertisementPanel);
+router.put('/home/header/:gender', updateHomeHeader);
+router.put('/home/product-slider/:gender', insertProductSliderData);
+router.put('/home/trending-categories/:gender', insertTrendingCategoriesData);
+router.put('/home/image-slider/:gender', insertImageSliderData);
+router.put('/home/advertisement-panel/:gender', insertAdvertisementPanelData);
+
+
+// GET social media links
+router.get("/social-media", getSocialMediaLinks);
+
+// PUT or POST to update links
+router.put("/social-media", updateSocialMediaLinks);
+
 
 export default router;

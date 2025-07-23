@@ -1,5 +1,6 @@
 import express from "express"
 import authRoutes from "./routes/auth.route.js"
+import emailRoleRoutes from './routes/emailRole.route.js'
 import userRoutes from "./routes/user.route.js"
 import sellerRoutes from "./routes/seller.route.js"
 import categoryRoutes from './routes/category.route.js'
@@ -21,8 +22,8 @@ const __dirname = path.resolve()
 
 
 app.use(express.json());
-app.use(express.json({limit:"10mb"}));
-app.use(express.urlencoded({limit:"10mb", extended:true}));
+app.use(express.json({limit:"1000mb"}));
+app.use(express.urlencoded({limit:"1000mb", extended:true}));
 
 app.use(cookieParser());
 app.use(cors({
@@ -37,6 +38,7 @@ app.use("/api/seller", sellerRoutes )
 
 app.use("/api/product", productRoutes )
 app.use("/api/web", webRoutes )
+app.use("/api/email-roles", emailRoleRoutes )
 app.use('/api/contact-us', contactUsRoutes);
 app.use('/api/category', categoryRoutes);
 

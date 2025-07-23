@@ -152,16 +152,23 @@
 .bottom-bar-footer {
   display: flex;
   justify-content: space-evenly;
-  padding: 1rem;
+  padding: 1rem 0px;
+  gap: 2px;
+  border-bottom: solid #ccc 1px;
   border-top: 1px solid #ccc;
   background-color: #fff;
+  position:sticky;
+  top: 0px;
 }
 
 .clear-btn,
 .apply-btn {
   padding: 0.75rem 1.5rem;
-  width: 25vw;
+  max-width: 25vw;
   min-width: fit-content;
+  flex-shrink: 1;
+  padding: 12px 0;
+  flex: 1;
   border: none;
   border-radius: 5px;
   font-size: 1rem;

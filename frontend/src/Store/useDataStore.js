@@ -2,12 +2,18 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios.js";
 
-const BASE_URL=import.meta.env.MODE==="development"?"http://localhost:5001":"/";
+const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:5001" : "/";
 
 export const useDataStore = create((set, get) => ({
 
     productData: null,
+    filteredProducts: [],
     loading: false,
+    gender: "male",
+    setGender: (gender) => {
+        set({ gender: gender });
+        localStorage.setItem("WebGender", gender);
+    },
 
     getProductById: async (productId) => {
         try {
@@ -27,6 +33,60 @@ export const useDataStore = create((set, get) => ({
             return res.data;
         } catch (err) {
             console.error("Failed to fetch multiple products", err);
+        }
+    },
+    getProductsByCategoryId: async ({ categoryId, gender }) => {
+        try {
+            console.log("gender=", gender)
+            const res = await axiosInstance.post(`/product/category/${categoryId}`, { gender });
+            // console.log("Fetched multiple products:", res.data);
+            console.log("productsByCategory=", res.data.products)
+            return res.data.products;
+        } catch (err) {
+            console.error("Failed to fetch products by CategoryId", err);
+        }
+    },
+
+
+    getProductsByCategory: async (data) => {
+        const res = await axiosInstance.post('/product/filter/category', data);
+        set({ filteredProducts: res.data });
+        return res.data;
+    },
+    getProductsByOffer: async (data) => {
+        const res = await axiosInstance.post('/product/filter/offer', data);
+        set({ filteredProducts: res.data });
+        return res.data;
+    },
+
+    getProductsByAllCategories: async (data) => {
+        set({ loading: true, error: null });
+        try {
+            const res = await axiosInstance.post('/product/filter/all-categories', data);
+            set({ filteredProducts: res.data, loading: false });
+            return res.data;
+        } catch (err) {
+            set({ error: err.message, loading: false });
+        }
+    },
+
+    getProductsByCategoryArray: async (data) => {
+        set({ loading: true, error: null });
+        try {
+            const res = await axiosInstance.post('/product/filter/category-array', data);
+            set({ filteredProducts: res.data, loading: false });
+            return res.data;
+        } catch (err) {
+            set({ error: err.message, loading: false });
+        }
+    },
+    getProductsBySearchKeyword: async (data) => {
+        set({ loading: true, error: null });
+        try {
+            const res = await axiosInstance.post('/product/filter/search', data);
+            set({ filteredProducts: res.data, loading: false });
+        } catch (err) {
+            set({ error: err.message, loading: false });
         }
     },
 

@@ -31,6 +31,8 @@
     width: 16vw;
     height: auto;
     cursor: pointer;
+    aspect-ratio: 3/4;
+    object-fit: cover;
 }
 
 .category-name {

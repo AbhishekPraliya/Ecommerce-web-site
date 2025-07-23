@@ -5,9 +5,10 @@ import ContactUsEdit from './Components/ContactUsEdit/ContactUsEdit';
 import AboutUsEdit from './Components/AboutUSEdit/AboutUsEdit';
 import PrivacyPolicyEdit from './Components/PrivacyPolicyEdit/PrivacyPolicyEdit';
 import HomeEditPage from './Components/HomeEditPage/HomeEditPage';
+import AddOwnerSeller from './Components/AddOwnerSeller/AddOwnerSeller';
 
 export default function WebEdit() {
-    const [activeSection, setActiveSection] = useState('Navbar');
+    const [activeSection, setActiveSection] = useState('Home');
 
     const renderSection = () => {
         switch (activeSection) {
@@ -21,6 +22,8 @@ export default function WebEdit() {
                 return <div className="web-edit-page-section web-edit-page-privacy-policy">Privacy Policy <PrivacyPolicyEdit/></div>;
             case 'Home':
                 return <div className="web-edit-page-section web-edit-page-home">Home <HomeEditPage/></div>;
+            case 'Owner/Seller':
+                return <div className="web-edit-page-section web-edit-page-home">Owner/Seller <AddOwnerSeller/></div>;
             default:
                 return null;
         }
@@ -29,7 +32,7 @@ export default function WebEdit() {
     return (
         <div className="web-edit-page-container">
             <div className="web-edit-page-button-row">
-                {['Navbar', 'ContactUs', 'AboutUs', 'PrivacyPolicy', 'Home'].map((section) => (
+                {['Home', 'Navbar', 'ContactUs', 'AboutUs', 'PrivacyPolicy', "Owner/Seller"].map((section) => (
                     <button
                         key={section}
                         className={`web-edit-page-button ${activeSection === section ? 'active' : ''}`}

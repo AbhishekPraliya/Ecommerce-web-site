@@ -22,6 +22,13 @@
     background-color: #f4f4f4;
     border-radius: 8px;
     border: solid #ccc 1px;
+    width: 90%;
+}
+@media (max-width:700px) {
+    .home-edit-form{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
 }
 .home-edit-form .home-edit-sub-heading{
     margin-bottom: 0px;
@@ -116,7 +123,7 @@
     margin: 0;
     padding: 0;
     display: flex;
-    gap: 1px;
+    gap: 0px;
     
 }
 .home-edit-form .home-edit-toggle button{

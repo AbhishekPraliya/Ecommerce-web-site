@@ -8,8 +8,9 @@ import alternativeProfileImg from "../../assets/alternative-profile-image.png"
 import { useLocation,useNavigate } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 import { useWebNavStore } from "../../Store/useWebStores/useWebNavStore";
-
+import { useDataStore } from "../../Store/useDataStore";
 const Navbar = () => {
+    const {setGender}=useDataStore();
     const {user,isLoading} = useAuth0();
     const inputRef = useRef(null);
     const [searchInput, setSearchInput] = useState("");
@@ -30,6 +31,10 @@ const Navbar = () => {
     useEffect(() => {
         getNavBarData()
     }, [getNavBarData])
+
+    useEffect(() => {
+        localStorage.setItem("WebGender",genderName==="MEN"?"male":"female");
+    }, [genderName])
 
     useEffect(() => {
         user?.picture?setProfileImg(user.picture):"";
@@ -59,9 +64,9 @@ const Navbar = () => {
                 <div className="Top-nav-switch-box nav-links">
                     {( ["MEN","WOMEN"]).map((item,index)=>(
                         <div
-                            className={`switch-item ${genderName===item?"active":""}`}
+                            className={`switch-item`}
                             key={index}
-                            onClick={()=>setGenderName(item)}
+                            onClick={()=>(navigate(`collection/all-cloths?Gender=${item.toUpperCase()}_UNISEX`))}
                         >
                             <Link to="">{item}</Link>
                         </div>
@@ -138,7 +143,7 @@ const Navbar = () => {
                 <div className="bottom-nav-switch-box">
                     {["MEN","WOMEN"].map((item,index)=>(
                         <button
-                            onClick={()=>setGenderName(item)}
+                            onClick={()=>{setGenderName(item),setGender(item==="WOMEN"?"female":"male")}}
                             className={`button ${genderName===item?"active":""}`}
                             key={index}
                         >{item}</button>

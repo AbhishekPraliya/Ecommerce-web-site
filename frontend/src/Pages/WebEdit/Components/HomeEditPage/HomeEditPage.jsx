@@ -5,7 +5,20 @@ import "./HomeEditPage.css";
 
 export default function HomeEditPage() {
     const { categoryMap, newCategory, fetchCategories } = useCategoryStore();
-    const { insertHomeData, getHomeData, homePageData } = useWebHomeStore();
+    const {
+        getHomeData,
+        homePageData,
+        insertMaleHeaderData,
+        insertFemaleHeaderData,
+        insertMaleProductSliderData,
+        insertFemaleProductSliderData,
+        insertMaleTrendingCategoriesData,
+        insertFemaleTrendingCategoriesData,
+        insertMaleImageSliderData,
+        insertFemaleImageSliderData,
+        insertMaleAdvertisementPanelData,
+        insertFemaleAdvertisementPanelData
+    } = useWebHomeStore();
 
     const initialGenderData = {
         headerImage: "",
@@ -17,6 +30,7 @@ export default function HomeEditPage() {
     };
 
     const [genderView, setGenderView] = useState("male");
+    const [categoryObj, setCategoryObj] = useState({})
     const [homeData, setHomeData] = useState({
         male: { ...initialGenderData },
         female: { ...initialGenderData },
@@ -28,7 +42,11 @@ export default function HomeEditPage() {
         trendingCategories: { image: "", category: "" },
     });
 
-    const [loading, setLoading] = useState(false);
+    const [loadingHeader, setLoadingHeader] = useState(false);
+    const [loadingProductSlider, setLoadingProductSlider] = useState(false);
+    const [loadingTrending, setLoadingTrending] = useState(false);
+    const [loadingImageSlider, setLoadingImageSlider] = useState(false);
+    const [loadingAdPanel, setLoadingAdPanel] = useState(false);
 
     useEffect(() => {
         fetchCategories();
@@ -40,8 +58,19 @@ export default function HomeEditPage() {
     }, [getHomeData]);
 
     useEffect(() => {
+            const tempObj = {};
+            Object.values(categoryMap).forEach((categoryList) => {
+                categoryList.forEach(({ _id, categoryName }) => {
+                    tempObj[_id] = categoryName;
+                });
+            });
+            setCategoryObj(tempObj);
+            // console.log("categoryObj:", tempObj);
+        }, [categoryMap]);
+
+    useEffect(() => {
         const updatedData = { male: {}, female: {} };
-        homePageData.forEach((entry) => {
+        homePageData?.forEach((entry) => {
             updatedData[entry.gender] = entry.data;
         });
         setHomeData({
@@ -51,9 +80,51 @@ export default function HomeEditPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [homePageData]);
 
+    const handleSubmitSection = async (section) => {
+        const gender = genderView;
+        const sectionData = homeData[gender][section];
+        const fnMap = {
+            header: gender === "male" ? insertMaleHeaderData : insertFemaleHeaderData,
+            productSlider: gender === "male" ? insertMaleProductSliderData : insertFemaleProductSliderData,
+            trendingCategories: gender === "male" ? insertMaleTrendingCategoriesData : insertFemaleTrendingCategoriesData,
+            imageSlider: gender === "male" ? insertMaleImageSliderData : insertFemaleImageSliderData,
+            advertisementPanel: gender === "male" ? insertMaleAdvertisementPanelData : insertFemaleAdvertisementPanelData,
+        };
+
+        const loadingSetterMap = {
+            header: setLoadingHeader,
+            productSlider: setLoadingProductSlider,
+            trendingCategories: setLoadingTrending,
+            imageSlider: setLoadingImageSlider,
+            advertisementPanel: setLoadingAdPanel,
+        };
+
+        loadingSetterMap[section](true);
+
+        const payload = { gender, data: section === "header" ? {
+            headerImage: homeData[gender].headerImage,
+            headerText: homeData[gender].headerText,
+        } : sectionData };
+
+        await fnMap[section](payload);
+        setTimeout(() => loadingSetterMap[section](false), 1000);
+    };
+
+    // const handleChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setHomeData((prev) => ({
+    //         ...prev,
+    //         [genderView]: {
+    //             ...prev[genderView],
+    //             [name]: value,
+    //         },
+    //     }));
+    // };
+
+
     const handleEnter = (e, section) => {
         if (e.key === "Enter") {
-            e.preventDefault();
+            e?.preventDefault();
             const newItem = { ...inputData[section] };
             setHomeData((prev) => ({
                 ...prev,
@@ -88,7 +159,8 @@ export default function HomeEditPage() {
         setInputData((prev) => ({ ...prev, trendingCategories: { image: "", category: "" } }));
     };
 
-    const removeItem = (section, index) => {
+    const removeItem = (section, index,e) => {
+        e?.preventDefault();
         setHomeData((prev) => ({
             ...prev,
             [genderView]: {
@@ -98,38 +170,38 @@ export default function HomeEditPage() {
         }));
     };
 
-    const isDataEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+    // const isDataEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const payload = ["male", "female"].map((gender) => ({
-            gender,
-            data: homeData[gender],
-        }));
+    // const handleSubmit = async (e) => {
+    //     e?.preventDefault();
+    //     const payload = ["male", "female"].map((gender) => ({
+    //         gender,
+    //         data: homeData[gender],
+    //     }));
 
-        const existingDataMap = {};
-        homePageData.forEach(entry => existingDataMap[entry.gender] = entry.data);
+    //     const existingDataMap = {};
+    //     homePageData.forEach(entry => existingDataMap[entry.gender] = entry.data);
 
-        const noChange = ["male", "female"].every(g => isDataEqual(homeData[g], existingDataMap[g]));
+    //     const noChange = ["male", "female"].every(g => isDataEqual(homeData[g], existingDataMap[g]));
 
-        if (noChange) return alert("No changes to submit");
+    //     if (noChange) return alert("No changes to submit");
 
-        setLoading(true);
-        await insertHomeData(payload);
-        setTimeout(() => setLoading(false), 1000);
-    };
+    //     setLoading(true);
+    //     await insertHomeData(payload);
+    //     setTimeout(() => setLoading(false), 1000);
+    // };
 
     const data = homeData[genderView];
 
     return (
         <div className="home-edit-outer-div">
-            <form className="home-edit-form" onSubmit={handleSubmit}>
+            <form className="home-edit-form" >
                 <h2 className="home-edit-title">Home Edit Page</h2>
 
                 <label>Add Data For Both Genders</label>
                 <div className="home-edit-toggle">
-                    <button type="button" className={`home-edit-page-buttons ${genderView === "male" ? "active" : "inactive"}`} onClick={() => setGenderView("male")}>Male</button>
-                    <button type="button" className={`home-edit-page-buttons ${genderView === "female" ? "active" : "inactive"}`} onClick={() => setGenderView("female")}>Female</button>
+                    <button type="button" className={`home-edit-page-buttons ${genderView === "male" ? "active" : "inactive"}`} onClick={(e) => {e?.preventDefault(); setGenderView("male")}}>Male</button>
+                    <button type="button" className={`home-edit-page-buttons ${genderView === "female" ? "active" : "inactive"}`} onClick={(e) => {e?.preventDefault(); setGenderView("female")}}>Female</button>
                 </div>
 
                 {/* /// welcome header /// */}
@@ -144,22 +216,47 @@ export default function HomeEditPage() {
                 <label>Header Text
                 <input className="home-edit-input" type="text" placeholder="Header Text" value={data.headerText} onChange={(e) => setHomeData(prev => ({ ...prev, [genderView]: { ...prev[genderView], headerText: e.target.value } }))} />
                 </label>
+                <div className="home-edit-submit-row">
+                    <button type="button" className="home-edit-submit-button" style={{ backgroundColor: loadingHeader ? "black" : "green" }} disabled={loadingHeader} onClick={(e) => {e?.preventDefault();handleSubmitSection("header")}}>
+                        {loadingHeader ? "Saving..." : "Save Header Section"}
+                    </button>
+                </div>
+            </form>
+                
 
+            <form className="home-edit-form" >
                 <h3 className="home-edit-sub-heading">Product Slider</h3>
                 <label>Click a buttons to add product-related categories to the list (shown products of that Categories to users from top to bottom)
                 <div className="home-edit-category-buttons">
                     {Object.entries({ ...categoryMap, ...newCategory }).map(([type, categories]) => (
                         <div className="home-edit-page-buttons-div" key={type}><p>{type}</p>
                             {categories?.map((cat) => (
-                                <button className="home-edit-page-buttons" type="button" key={cat._id} onClick={() => addProductSliderCategory(cat._id)}>
+                                <button className="home-edit-page-buttons" type="button" key={cat._id} onClick={(e) =>{ e?.preventDefault(); addProductSliderCategory(cat._id)}}>
                                     {cat.categoryName}
                                 </button>
                             ))}
                         </div>
                     ))}
                 </div></label>
+                <div className="home-edit-submit-row">
+                    <button type="button" className="home-edit-submit-button" style={{ backgroundColor: loadingProductSlider ? "black" : "green" }} disabled={loadingProductSlider} onClick={(e) => {e?.preventDefault(); handleSubmitSection("productSlider")}}>
+                        {loadingProductSlider ? "Saving..." : "Save Product Slider"}
+                    </button>
+                </div>
+                <div className="home-edit-preview">
+                    <h4>Preview - {genderView}:</h4>
+                    <ul>
+                        {data?.productSlider?.length && data.productSlider.map((catId, i) => {
+                            // console.log("cat",catId);
+                            return (
+                            <li key={i}>{(i+1)+': '+categoryObj[catId]+'--'+catId}<button onClick={(e) => {e?.preventDefault(); removeItem("productSlider", i)}}>×</button></li>
+                        )})}
+                    </ul>
+                </div>
+            </form>
+                
 
-
+            <form className="home-edit-form" >
                 <h3 className="home-edit-sub-heading">Trending Categories</h3>
                 <div style={{width:"150px",height:"200px",backgroundColor:"#ccc",margin:"auto"}}>
                     {inputData.trendingCategories.image && <img style={{width:"100%",height:"100%"}} src={inputData.trendingCategories.image} alt="img" />}
@@ -178,10 +275,35 @@ export default function HomeEditPage() {
                         ))}
                     </select>
                 </label>
-                <button className="home-edit-page-buttons" type="button" onClick={() => addTrendingCategory(inputData.trendingCategories.image, inputData.trendingCategories.category)}>
+                <button className="home-edit-page-buttons" type="button" onClick={(e) => {e?.preventDefault(); addTrendingCategory(inputData.trendingCategories.image, inputData.trendingCategories.category)}}>
                     Add Trending Category
                 </button>
+                <div className="home-edit-submit-row">
+                    <button type="button" className="home-edit-submit-button" style={{ backgroundColor: loadingTrending ? "black" : "green" }} disabled={loadingTrending} onClick={(e) => {e?.preventDefault(); handleSubmitSection("trendingCategories")}}>
+                        {loadingTrending ? "Saving..." : "Save Trending Categories"}
+                    </button>
+                </div>
+                <div className="home-edit-preview">
+                    <h4>Preview - {genderView}:</h4>
+                    <ul style={{padding:"0",margin:"0",width:"100%",display:"flex",gap:"3px",overflowX:"scroll"}}>
+                        {data.trendingCategories.map((item, i) => {
+                            // console.log(JSON.stringify(item.category));
+                            return (
+                            <li style={{listStyle:"none",width:"fit-content"}} key={i}>
+                                <button onClick={(e) => {e?.preventDefault(); removeItem("trendingCategories", i)}}>×</button>
+                                {i+1}
+                                <div style={{width:"150px",height:"220px",backgroundColor:"#ccc",display:"inline-block"}}>
+                                    {categoryObj[item.category]+'--'+item.category}
+                                    {item.image && <img style={{width:"100%",height:"100%"}} src={item.image} alt="img" />}
+                                </div>
+                            </li>
+                        )})}
+                    </ul>
+                </div>
+            </form>
+                
 
+            <form className="home-edit-form" >
                 <h3 className="home-edit-sub-heading">Image Slider</h3>
                 <div style={{width:"200px",height:"200px",backgroundColor:"#ccc",margin:"auto"}}>
                     {inputData.imageSlider.image && <img style={{width:"100%",height:"100%"}} src={inputData.imageSlider.image} alt="img" />}
@@ -189,70 +311,24 @@ export default function HomeEditPage() {
                 <label>Image Url (Image Should be Square in Shape)
                 <input className="home-edit-input" type="text" placeholder="Image URL" value={inputData.imageSlider.image} onChange={(e) => setInputData({ ...inputData, imageSlider: { ...inputData.imageSlider, image: e.target.value } })} onKeyDown={(e) => handleEnter(e, "imageSlider")} />
                 </label>
-                <label>Route link
-                    use '--' (for category '/categoryName'), (for offer '/offer--offerName'), (for discount '/discount--30--40' 30% to 40%)
-                    Eg:- ('/t-shirt-for-men'),('/offer--bye-2-for-999'),('/discount--30-40')
-                <input className="home-edit-input" type="text" placeholder="Route" value={inputData.imageSlider.route} onChange={(e) => setInputData({ ...inputData, imageSlider: { ...inputData.imageSlider, route: e.target.value } })} onKeyDown={(e) => handleEnter(e, "imageSlider")} />
+                <label>Route link, (use '--' between)<br/>
+                    (for category '/categoryName--categoryId'), Eg:-(/Jeans--686cf5381d373792d0563aa2)<br/>
+                    (for offer '/offerName--offer'), Eg:-(/bye-2-for-999--offer)<br/>
+                    (for any Query like Gender, discount), Eg:-(/all-cloths?Gender=MEN&Discount=40%25%20or%20more)<br/>
+                    (or go to the 'Route' and 'Copy and Past' and check is that route is working of not)<br/>
+                <input className="home-edit-input" type="text" placeholder="/all-cloths?Discount=40%25%20or%20more" value={inputData.imageSlider.route} onChange={(e) => setInputData({ ...inputData, imageSlider: { ...inputData.imageSlider, route: e.target.value } })} onKeyDown={(e) => handleEnter(e, "imageSlider")} />
                 </label>
-
-                <h3 className="home-edit-sub-heading">Advertisement Panel</h3>
-                <div style={{width:"100%",height:"200px",backgroundColor:"#ccc"}}>
-                    {inputData.advertisementPanel.image && <img style={{width:"100%",height:"100%"}} src={inputData.advertisementPanel.image} alt="img" />}
-                </div>
-                <label>Advertisement Image
-                <br />
-                <input className="home-edit-input" type="text" placeholder="Add Image URL" value={inputData.advertisementPanel.image} onChange={(e) => setInputData({ ...inputData, advertisementPanel: { ...inputData.advertisementPanel, image: e.target.value } })} onKeyDown={(e) => handleEnter(e, "advertisementPanel")} />
-                </label>
-                <label><b>Route link</b> use '--' (for category '/categoryName'), (for offer '/offer--offerName'), (for discount '/discount--30--40' 30% to 40%)<br/>
-                Eg:- ('/t-shirt-for-men'),('/offer--bye-2-for-999'),('/discount--30-40')
-                    <br/>
-                    <input className="home-edit-input" type="text" placeholder="Route" value={inputData.advertisementPanel.route} onChange={(e) => setInputData({ ...inputData, advertisementPanel: { ...inputData.advertisementPanel, route: e.target.value } })} onKeyDown={(e) => handleEnter(e, "advertisementPanel")} />
-                </label>
-                <label>Advertisement Ending Date
-                    <br/>
-                    <input className="home-edit-input" type="date" value={inputData.advertisementPanel.offerEndDate} onChange={(e) => setInputData({ ...inputData, advertisementPanel: { ...inputData.advertisementPanel, offerEndDate: e.target.value } })} onKeyDown={(e) => handleEnter(e, "advertisementPanel")} />
-                </label>
-
                 <div className="home-edit-submit-row">
-                    <button type="submit" className="home-edit-submit-button" style={{ backgroundColor: loading ? "black" : "green" }} disabled={loading}>
-                        {loading ? "Saving..." : "Submit"}
+                    <button type="button" className="home-edit-submit-button" style={{ backgroundColor: loadingImageSlider ? "black" : "green" }} disabled={loadingImageSlider} onClick={(e) => {e?.preventDefault(); handleSubmitSection("imageSlider")}}>
+                        {loadingImageSlider ? "Saving..." : "Save Image Slider"}
                     </button>
                 </div>
-
                 <div className="home-edit-preview">
                     <h4>Preview - {genderView}:</h4>
-                    <p><strong>Header:</strong> {data.headerText}</p>
-
-                    <h5>Product Slider Categories:</h5>
-                    <ul>
-                        {data?.productSlider?.length && data.productSlider.map((catId, i) => {
-                            // console.log("cat",catId);
-                            return (
-                            <li key={i}>{`Id${i+1}->`+catId}<button onClick={() => removeItem("productSlider", i)}>×</button></li>
-                        )})}
-                    </ul>
-
-                    <h5>Trending Categories:</h5>
-                    <ul style={{padding:"0",margin:"0",width:"100%",display:"flex",gap:"3px",overflowX:"scroll"}}>
-                        {data.trendingCategories.map((item, i) => {
-                            // console.log(JSON.stringify(item.category));
-                            return (
-                            <li style={{listStyle:"none",width:"fit-content"}} key={i}>
-                                <button onClick={() => removeItem("trendingCategories", i)}>×</button>
-                                {i+1}
-                                <div style={{width:"150px",height:"220px",backgroundColor:"#ccc",display:"inline-block"}}>
-                                    {item.category}
-                                    {item.image && <img style={{width:"100%",height:"100%"}} src={item.image} alt="img" />}
-                                </div>
-                            </li>
-                        )})}
-                    </ul>
-
-                    <h5>Image Slider:</h5>
                     <ul style={{padding:"0",margin:"0",width:"100%",display:"flex",gap:"3px",overflowX:"scroll"}}>
                         {data.imageSlider.map((item, i) => (
                             <li style={{listStyle:"none",width:"fit-content"}} key={i}>
-                                <button onClick={() => removeItem("imageSlider", i)}>×</button>
+                                <button onClick={(e) => {e?.preventDefault(); removeItem("imageSlider", i)}}>×</button>
                                 {i+1}
                                 <div style={{width:"200px",height:"220px",backgroundColor:"#ccc",display:"inline-block"}}>
                                     {item.route}
@@ -261,12 +337,42 @@ export default function HomeEditPage() {
                             </li>
                         ))}
                     </ul>
+                </div>
+            </form>
+                
 
-                    <h5>Advertisement Panel:</h5>
+            <form className="home-edit-form" >
+                <h3 className="home-edit-sub-heading">Advertisement Panel</h3>
+                <div style={{width:"100%",height:"200px",backgroundColor:"#ccc"}}>
+                    {inputData.advertisementPanel.image && <img style={{width:"100%",height:"100%"}} src={inputData.advertisementPanel.image} alt="img" />}
+                </div>
+                <label>Advertisement Image
+                <br />
+                <input className="home-edit-input" type="text" placeholder="Add Image URL" value={inputData.advertisementPanel.image} onChange={(e) => setInputData({ ...inputData, advertisementPanel: { ...inputData.advertisementPanel, image: e.target.value } })} onKeyDown={(e) => handleEnter(e, "advertisementPanel")} />
+                </label>
+                <label>Route link, (use '--' between)<br/>
+                    (for category '/categoryName--categoryId'), Eg:-(/Jeans--686cf5381d373792d0563aa2)<br/>
+                    (for offer '/offerName--offer'), Eg:-(/bye-2-for-999--offer)<br/>
+                    (for any Query like Gender, discount), Eg:-(/all-cloths?Gender=MEN&Discount=40%25%20or%20more)<br/>
+                    <input className="home-edit-input" type="text" placeholder="Route" value={inputData.advertisementPanel.route} onChange={(e) => setInputData({ ...inputData, advertisementPanel: { ...inputData.advertisementPanel, route: e.target.value } })} onKeyDown={(e) => handleEnter(e, "advertisementPanel")} />
+                </label>
+                <label>Advertisement Ending Date
+                    <br/>
+                    <input className="home-edit-input" type="date" value={inputData.advertisementPanel.offerEndDate} onChange={(e) => setInputData({ ...inputData, advertisementPanel: { ...inputData.advertisementPanel, offerEndDate: e.target.value } })} onKeyDown={(e) => handleEnter(e, "advertisementPanel")} />
+                </label>
+
+                <div className="home-edit-submit-row">
+                    <button type="button" className="home-edit-submit-button" style={{ backgroundColor: loadingAdPanel ? "black" : "green" }} disabled={loadingAdPanel} onClick={(e) => {e?.preventDefault(); handleSubmitSection("advertisementPanel")}}>
+                        {loadingAdPanel ? "Saving..." : "Save Advertisement Panel"}
+                    </button>
+                </div>
+
+                <div className="home-edit-preview">
+                    <h4>Preview - {genderView}:</h4>
                     <ul>
                         {data.advertisementPanel.map((item, i) => (
                             <li key={i}>
-                                <button onClick={() => removeItem("advertisementPanel", i)}>×</button>
+                                <button onClick={(e) => {e?.preventDefault(); removeItem("advertisementPanel", i)}}>×</button>
                                 {i+1}
                                 <div style={{width:"100%",height:"200px"}}>
                                     {item.image && <img style={{width:"100%",height:"100%"}} src={item.image} alt="img" />}
