@@ -22,8 +22,8 @@ const __dirname = path.resolve()
 
 
 app.use(express.json());
-app.use(express.json({limit:"1000mb"}));
-app.use(express.urlencoded({limit:"1000mb", extended:true}));
+app.use(express.json({limit:"100mb"}));
+app.use(express.urlencoded({limit:"100mb", extended:true}));
 
 app.use(cookieParser());
 app.use(cors({
@@ -36,10 +36,10 @@ app.use("/api/owner", ownerRoutes )
 app.use("/api/user", userRoutes )
 app.use("/api/seller", sellerRoutes )
 
-app.use("/api/product", productRoutes )
-app.use("/api/web", webRoutes )
-app.use("/api/email-roles", emailRoleRoutes )
-app.use('/api/contact-us', contactUsRoutes);
+// app.use("/api/product", productRoutes )
+// app.use("/api/web", webRoutes )
+// app.use("/api/email-roles", emailRoleRoutes )
+// app.use('/api/contact-us', contactUsRoutes);
 app.use('/api/category', categoryRoutes);
 
 if(process.env.NODE_ENV==="production"){
