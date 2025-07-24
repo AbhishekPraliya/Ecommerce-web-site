@@ -1,13 +1,13 @@
 import express from "express"
 import authRoutes from "./routes/auth.route.js"
-import emailRoleRoutes from './routes/emailRole.route.js'
+// import emailRoleRoutes from './routes/emailRole.route.js'
 import userRoutes from "./routes/user.route.js"
 import sellerRoutes from "./routes/seller.route.js"
 import categoryRoutes from './routes/category.route.js'
 import ownerRoutes from "./routes/owner.route.js"
-import productRoutes from "./routes/product.route.js"
-import webRoutes from "./routes/web.route.js"
-import contactUsRoutes from './routes/contactUs.route.js';
+// import productRoutes from "./routes/product.route.js"
+// import webRoutes from "./routes/web.route.js"
+// import contactUsRoutes from './routes/contactUs.route.js';
 import dotenv from "dotenv"
 import {connectDB} from "./lib/db.js"
 import cookieParser from "cookie-parser"
