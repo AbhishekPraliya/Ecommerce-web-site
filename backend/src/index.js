@@ -8,7 +8,7 @@ import emailRoleRoutes from './routes/emailRole.route.js'
 import productRoutes from "./routes/product.route.js"
 import webRoutes from "./routes/web.route.js"
 import contactUsRoutes from './routes/contactUs.route.js';
-// import categoryRoutes from './routes/category.route.js'
+import categoryRoutes from './routes/category.route.js'
 
 import {connectDB} from "./lib/db.js"
 
@@ -43,7 +43,7 @@ app.use("/api/product", productRoutes )
 app.use("/api/web", webRoutes )
 app.use("/api/email-roles", emailRoleRoutes )
 app.use('/api/contact-us', contactUsRoutes);
-// app.use('/api/category', categoryRoutes);
+app.use('/api/category', categoryRoutes);
 
 if(process.env.NODE_ENV==="production"){
     app.use(express.static(path.join(__dirname,"../frontend/dist")));
@@ -56,7 +56,15 @@ if(process.env.NODE_ENV==="production"){
 
 
 
-app.listen(PORT,()=>{
-    console.log("Hello Abhishek, Server is running on port - "+PORT);
-    connectDB();
-})
+// app.listen(PORT,()=>{
+//     console.log("Hello Abhishek, Server is running on port - "+PORT);
+//     connectDB();
+// })
+
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log("✅ Server started on port " + PORT);
+  });
+}).catch((err) => {
+  console.error("❌ DB connection failed", err);
+});
