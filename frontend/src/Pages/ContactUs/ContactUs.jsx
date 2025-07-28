@@ -3,8 +3,10 @@ import './ContactUs.css';
 
 import { Search, Send, ChevronDown, ChevronRight } from 'lucide-react';
 import { useWebContactUsStore } from '../../Store/useWebStores/useWebContactUsStore';
+import {useWebNavStore} from "../../Store/useWebStores/useWebNavStore"
 
 const ContactUs = () => {
+    const {setIsLoadingComponent} = useWebNavStore();
     const { getContactUsData } = useWebContactUsStore()
     const [helpData, setHelpData] = useState([]);
     const [activeMain, setActiveMain] = useState();
@@ -13,14 +15,16 @@ const ContactUs = () => {
     
     useEffect(() => {
         const fetchData = async () => {
+            setIsLoadingComponent(true);
             const res = await getContactUsData();
-            console.log("getContactUsData=",res);
+            // console.log("getContactUsData=",res);
             setHelpData(res.helpData || []);
             setActiveMain(res.helpData[0]?.mainHeading || []);
             setAddressDetails(res.addressDetails || {});
+            setIsLoadingComponent(false);
         };
         fetchData();
-    }, [getContactUsData]);
+    }, [getContactUsData,setIsLoadingComponent]);
 
     if(!helpData.length){
         return (<div></div>)

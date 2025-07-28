@@ -24,7 +24,7 @@ const MyAccount = () => {
     const {authUser,login} = useAuthStore();
     const navigate = useNavigate();
     const {pathname} = useLocation();
-    console.log( pathname)
+    // console.log( pathname)
 
     const {user,logout} = useAuth0();
     const firstLetter = user?.name?.charAt(0).toUpperCase();
@@ -70,11 +70,11 @@ const MyAccount = () => {
     const sellerBoxes = [
         {icon: <Plus />, route: "/add-products",title: "Add Products",desc: "Add or edit your product listings",},
         {icon: <List />,route: "/product-list",title: "Product List",desc: "View and manage all listed products",},
-        {icon: <Pencil />, route: "/edit-product",title: "Edit Product",desc: "Update Product data",},
+        // {icon: <Pencil />, route: "/edit-product",title: "Edit Product",desc: "Update Product data",},
         {icon: <Bold /> , route: "/myaccount/mybusiness",title: "My Business",desc: "View or Edit Business Details",},
     ];
     const ownerBoxes = [
-        {icon: <Users />, route: "/myaccount/users",title: "Add/Edit Users",desc: "Manage users and their roles",},
+        {icon: <Users />, route: "/webedit",title: "Add/Edit Users",desc: "Manage users and their roles",},
         {icon: <Pencil />, route: "/webedit",title: "Edit Data",desc: "Update website data",},
     ];
     

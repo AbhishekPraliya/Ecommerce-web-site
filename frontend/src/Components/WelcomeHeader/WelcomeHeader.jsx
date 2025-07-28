@@ -5,7 +5,7 @@ import {useWebNavStore } from "../../Store/useWebStores/useWebNavStore.js"
 
 const WelcomeHeader = ({headerImage,headerText}) => {
     const {navBarData} = useWebNavStore();
-    console.log('navBarData',navBarData);
+    // console.log('navBarData',navBarData);
 
     const homeBackground = './home-background.png'; // adjust path as needed
     

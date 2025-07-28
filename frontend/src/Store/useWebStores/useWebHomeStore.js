@@ -10,7 +10,7 @@ export const useWebHomeStore = create((set,get) => ({
         try {
             const res = await axiosInstance.get("/web/get/home-data");
             set({ homePageData: res.data?.homeData || [] });
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
         } catch (err) {
             console.error("Error fetching home data:", err);
@@ -34,7 +34,8 @@ export const useWebHomeStore = create((set,get) => ({
         try {
             const res = await axiosInstance.put(`/web/home/${section}/${gender}`, payload);
             // set({ homePageData: res.data });
-            console.log("res=",res);
+            // console.log("res=",res);
+            return res.data;
         } catch (err) {
             console.error(`Error updating ${section} for ${gender}`, err);
         }

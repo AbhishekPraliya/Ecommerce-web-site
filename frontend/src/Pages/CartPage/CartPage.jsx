@@ -7,56 +7,10 @@ import WishList from "../WishList/WishList.jsx"
 import { useUserStore } from '../../Store/useAuthUserStore.js';
 import { useAuthStore } from '../../Store/useAuthStore.js';
 import CartSelectModal from './Components/CartSelectModal/CartSelectModal.jsx';
-
-// let cartData = [
-//     {
-//         offerName: 'Buy 2 for 999 offer applied!',
-//         routeOffer: 'buy-2-for-999',
-//         products: [
-//             {
-//                 id: 1,
-//                 title: 'Men\'s Red The Batman Graphic Printed Oversized T-shirt',
-//                 price: 500,
-//                 originalPrice: 1299,
-//                 saved: 799,
-//                 size: 'L',
-//                 qty: 1,
-//                 image: ProductImage2,
-//                 deliveryDate: '25 Jun 2025',
-//             },
-//             {
-//                 id: 2,
-//                 title: 'Men\'s Black Batman Outline Logo Graphic Printed Oversized T-shirt',
-//                 price: 499,
-//                 originalPrice: 1299,
-//                 saved: 800,
-//                 size: 'L',
-//                 qty: 1,
-//                 image: ProductImage2,
-//                 deliveryDate: '25 Jun 2025',
-//             }
-//         ]
-//     },
-//     {
-//         offerName: 'Buy 3 for 999 offer applicable',
-//         routeOffer: 'buy-3-for-999',
-//         products: [
-//             {
-//                 id: 3,
-//                 title: 'Men\'s Red Moon Rider Graphic Printed T-shirt',
-//                 price: 399,
-//                 originalPrice: 999,
-//                 saved: 600,
-//                 size: 'L',
-//                 qty: 1,
-//                 image: ProductImage2,
-//                 deliveryDate: '25 Jun 2025',
-//             }
-//         ]
-//     }
-// ];
+import {useWebNavStore} from "../../Store/useWebStores/useWebNavStore"
 
 const CartPage = () => {
+    const {setIsLoadingComponent} = useWebNavStore();
     const { authUser } = useAuthStore();
     const { getCartData, userWishlist, deleteProductFromCart, updateCartProductSize, updateCartProductQuantity } = useUserStore();
     const [openPriceSummary, setOpenPriceSummary] = useState(false);
@@ -76,10 +30,12 @@ const CartPage = () => {
 
     useEffect(() => {
         const handelGetCartData = async () => {
+            setIsLoadingComponent(true);
             setProductData(await getCartData(authUser._id));
+            setIsLoadingComponent(false);
         }
         authUser && handelGetCartData();
-    }, [getCartData, authUser, userWishlist])
+    }, [getCartData, authUser, userWishlist,setIsLoadingComponent])
 
     // console.log("data=", productData);
 
@@ -149,11 +105,6 @@ const CartPage = () => {
             }
         }
 
-        // ✅ Final totals
-        console.log("totalOriginalPrice:", totalOriginalPrice);
-        console.log("totalNewPrice:", totalNewPrice);
-        console.log("subTotalPrice (combo + rest):", subTotalPrice);
-
         setTotalOriginalPrice(totalOriginalPrice);
         setTotalNewPrice(totalNewPrice);
         setSubTotalPrice(subTotalPrice);
@@ -167,7 +118,7 @@ const CartPage = () => {
 
     useEffect(() => {
         if (productData) {
-            console.log("productData", productData);
+            // console.log("productData", productData);
             groupProductsByBusinessAndOffer(productData);
         }
     }, [productData, groupProductsByBusinessAndOffer])
@@ -178,37 +129,6 @@ const CartPage = () => {
     }
 
 
-    useEffect(() => {
-        console.log("afterLoop-totalOriginalPrice", totalOriginalPrice)
-        console.log("afterLoop-totalNewPrice", totalNewPrice)
-        console.log("afterLoop-subTotalPrice", subTotalPrice)
-
-    }, [totalOriginalPrice, totalNewPrice, subTotalPrice])
-
-
-
-    // if(data){
-    //     cartData=data;
-    // }
-    // {id
-    // title
-    // price
-    // originalPrice
-    // sizes
-    // colors
-    // qty
-    // selectedSize
-    // selectedColor
-    // image
-    // deliveryDate
-    // offer
-    // offerDetails.productNumber,offerDetails.comboPrice
-    // business
-    //     businessName
-    //     _id
-    // lowStockSize
-    // outOfStockSize
-    // }
 
     const RemoveProduct = (product) => {
 

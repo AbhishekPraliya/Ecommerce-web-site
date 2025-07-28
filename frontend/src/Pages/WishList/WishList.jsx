@@ -5,8 +5,10 @@ import { useDataStore } from '../../Store/useDataStore.js';
 import { useUserStore } from '../../Store/useAuthUserStore.js';
 import { ShoppingBag, Trash2 } from 'lucide-react';
 import AddToCartSelector from './Components/AddToCartSelector/AddToCartSelector.jsx';
+import {useWebNavStore} from "../../Store/useWebStores/useWebNavStore.js"
 
 const WishList = () => {
+    const {setIsLoadingComponent} = useWebNavStore()
     const { getMultipleProducts } = useDataStore();
     const { userWishlist, deleteProductFromWishlist, addProductIntoCart } = useUserStore();
     const [products, setProducts] = useState([]);
@@ -15,12 +17,14 @@ const WishList = () => {
     useEffect(() => {
         const getProductData=async()=>{
         setProducts(await getMultipleProducts(userWishlist));
+        setIsLoadingComponent(false)
 
         }
     if(userWishlist.length){
+        setIsLoadingComponent(true)
         getProductData();
     }
-    }, [userWishlist,getMultipleProducts]);
+    }, [userWishlist,getMultipleProducts,setIsLoadingComponent]);
 
     if(products.length<1){
         return (

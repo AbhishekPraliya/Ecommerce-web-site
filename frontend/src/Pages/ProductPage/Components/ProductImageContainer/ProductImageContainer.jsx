@@ -6,18 +6,7 @@ import {
     ChevronDown,
     ChevronUp,
 } from 'lucide-react';
-// import productImage1 from '../../../../assets/product1.png';
-// import productImage2 from '../../../../assets/product2.png';
-// import productImage3 from '../../../../assets/product3.png';
 
-// const images = [
-//     productImage1,
-//     productImage2,
-//     productImage3,
-//     productImage1,
-//     productImage2,
-//     productImage3,
-// ];
 
 const ProductImageContainer = ({images}) => {
     const [currentIndex, setCurrentIndex] = useState(0);

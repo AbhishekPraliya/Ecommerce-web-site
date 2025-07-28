@@ -13,10 +13,13 @@ export const getEmailRoles = async (req, res) => {
 
 // Insert one email
 export const insertEmailRole = async (req, res) => {
-  const { email, role } = req.body;
-  if (!email || !role) return res.status(400).json({ error: "Email and role are required" });
-
+  
   try {
+    const { email, role } = req.body;
+    if (!email || !role) return res.status(400).json({ error: "Email and role are required" });
+    if (req.userRole !== "owner") {
+      return res.status(403).json({ message: "You are not authorized to create email roles" });
+    }
     let data = await EmailRole.findOne();
     if (!data) {
       data = await EmailRole.create({ emails: [{ email, role }] });
@@ -38,6 +41,9 @@ export const insertEmailRole = async (req, res) => {
 export const deleteEmailRole = async (req, res) => {
   const { email } = req.params;
   try {
+    if (req.userRole !== "owner") {
+      return res.status(403).json({ message: "You are not authorized to delete email roles" });
+    }
     const data = await EmailRole.findOne();
     if (!data) return res.status(404).json({ error: "No data found" });
 

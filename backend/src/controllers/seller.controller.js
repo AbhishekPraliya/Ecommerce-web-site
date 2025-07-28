@@ -5,76 +5,11 @@ import Business from "../models/business.model.js";
 import Product from "../models/product.model.js";
 import Category from "../models/category.model.js";
 
-export const createSeller = async (req, res) => {
-    const { email, name, picture, loginProvider, phoneNumber, gender, dateOfBirth, address } = req.body;
-    try {
-        const existingSeller = await Seller.findOne({ email });
-        if (existingSeller) return res.status(200).json({ success: true, seller: existingSeller });
-
-        const newSeller = await Seller.create({
-            email,
-            name,
-            picture,
-            loginProvider,
-            phoneNumber,
-            gender,
-            dateOfBirth,
-            address,
-        });
-        res.status(201).json({ success: true, seller: newSeller });
-    } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
-    }
-};
-
-export const deleteSeller = async (req, res) => {
-    try {
-        await Seller.findByIdAndDelete(req.params.sellerId);
-        res.status(200).json({ success: true, message: "Seller deleted successfully." });
-    } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
-    }
-};
 
 export const getSeller = async (req, res) => {
     try {
         const seller = await Seller.findById(req.params.sellerId);
         res.status(200).json({ success: true, seller });
-    } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
-    }
-};
-
-export const getAllSellers = async (req, res) => {
-    try {
-        const sellers = await Seller.find();
-        res.status(200).json({ success: true, sellers });
-    } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
-    }
-};
-
-export const updateSellerDetails = async (req, res) => {
-    try {
-        const updated = await Seller.findByIdAndUpdate(
-            req.params.sellerId,
-            req.body,
-            { new: true }
-        );
-        res.status(200).json({ success: true, seller: updated });
-    } catch (err) {
-        res.status(500).json({ success: false, message: err.message });
-    }
-};
-
-export const updateMobileNumber = async (req, res) => {
-    try {
-        const seller = await Seller.findByIdAndUpdate(
-            req.params.sellerId,
-            { phoneNumber: req.body.phoneNumber },
-            { new: true }
-        );
-        res.status(200).json({ success: true, phoneNumber: seller.phoneNumber });
     } catch (err) {
         res.status(500).json({ success: false, message: err.message });
     }
@@ -309,22 +244,79 @@ export const createOneProduct = async (req, res) => {
     }
 };
 
+
 export const createMultipleProduct = async (req, res) => {
     try {
         const businessId = req.user.business;
-        // console.log("create-many");
-        const productsWithBusiness = req.body?.map((prod) => ({
-            ...prod,
-            business: businessId,
-        }));
-        const created = await Product.insertMany(productsWithBusiness);
-        // console.log("create-many=");
+        const products = req.body;
+
+        const processedProducts = [];
+
+        for (const product of products) {
+            const categoryNames = product.categories || []; // array of category names
+            const categoryIds = [];
+
+            for (const categoryName of categoryNames) {
+                // Try to find category by name
+                let category = await Category.findOne({ categoryName });
+
+                if (!category) {
+                    // If not found, create it
+                    category = await Category.create({
+                        categoryName,
+                        categoryType: "default", // You can update default type logic
+                        gender: product.gender || "unisex",
+                        description: "",
+                        isActive: true,
+                    });
+                }
+
+                categoryIds.push(category._id);
+            }
+
+            processedProducts.push({
+                ...product,
+                business: businessId,
+                categories: categoryIds,
+            });
+        }
+
+        const created = await Product.insertMany(processedProducts);
         res.status(201).json(created);
     } catch (err) {
+        console.error("Error uploading products:", err);
         res.status(500).json({ message: "Error uploading products", error: err.message });
     }
 };
 
+
+// Edit a Product
+export const updateProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updated = await Product.findByIdAndUpdate(id, req.body, { new: true });
+        if (!updated) return res.status(404).json({ message: "Product not found" });
+        res.status(200).json(updated);
+    } catch (err) {
+        res.status(500).json({ message: "Error updating product", error: err.message });
+    }
+};
+
+// Delete a Product
+export const deleteProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        console.log("deleteProduct", id);
+        if (!id) return res.status(400).json({ message: "Product ID is required" });
+        
+        const deleted = await Product.findByIdAndDelete(id);
+        if (!deleted) return res.status(404).json({ message: "Product not found" });
+        
+        res.status(200).json({ message: "Product deleted successfully" });
+    } catch (err) {
+        res.status(500).json({ message: "Error deleting product", error: err.message });
+    }
+};
 
 
 

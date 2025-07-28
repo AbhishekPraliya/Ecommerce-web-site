@@ -1,17 +1,24 @@
 import User from "../models/user.model.js";
 import Seller from "../models/seller.model.js";
 import Owner from "../models/owner.model.js";
+import EmailRole from "../models/emailRole.model.js";
 import { generateToken } from "../lib/utils.js";
+// import { verifyAuth0Token } from "../lib/auth0Verify.js";
 
 // USER LOGIN
 export const loginUser = async (req, res) => {
     const { email } = req.body;
     try {
+        if(!email) {
+            return res.status(400).json({ message: "Email is required" });
+        }
+        // console.log("User logged in:", email);
         let user = await User.findOne({ email });
         if (!user) {
             user = new User(req.body);
             await user.save();
         }
+        // console.log("User logged in:", user.email);
 
         const userData = {
             _id: user._id,
@@ -33,9 +40,31 @@ export const loginUser = async (req, res) => {
 
 // BUSINESS LOGIN
 export const loginBusinessAccount = async (req, res) => {
-    const { email } = req.body;
+    // console.log("loginBusinessAccount", req.body.token);
+    // const token = req.body.token; // The token received from Auth0
+    // const decoded = await verifyAuth0Token(token);
+    // console.log("Decoded token:", JSON.stringify(decoded));
     try {
-        if (email === process.env.OWNER_EMAIL) {
+        const { email } = req.body;
+        const data = await EmailRole.findOne();
+        const emails = data?.emails || [];
+
+        const matchedEntry = emails.find(e => e.email === email);
+
+        let userData ;
+        if (matchedEntry) {
+            userData = {
+                email: matchedEntry.email,
+                role: matchedEntry.role,
+            }
+        }
+        // console.log("Matched email entry:", matchedEntry);
+        if (!userData && email !== process.env.OWNER_EMAIL) {
+            // console.log("Unauthorized email:", email);
+            return res.status(403).json({ message: "Unauthorized email" });
+        }
+
+        if (email === process.env.OWNER_EMAIL || userData.role === "owner") {
             let owner = await Owner.findOne({ email });
             if (!owner) {
                 owner = new Owner(req.body);
@@ -56,7 +85,8 @@ export const loginBusinessAccount = async (req, res) => {
             return res.status(200).json(userData);
         }
 
-        if (email === process.env.SELLER_EMAIL) {
+        if (userData.role === "seller") {
+            // console.log("Seller login attempt for email:", email);
             let seller = await Seller.findOne({ email });
             if (!seller) {
                 seller = new Seller(req.body);

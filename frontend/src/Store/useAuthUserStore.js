@@ -14,16 +14,6 @@ export const useUserStore = create((set,) => ({
     userWishlist: [],
 
 
-    getAllUsers: async () => {
-        try {
-            const { data } = await axiosInstance.get("/user/all");
-            set({ userData: data });
-        } catch (error) {
-            handleError(error, "Fetch users failed");
-        }
-    },
-
-
     addProductIntoCart: async (productId, data) => {
         try {
             const res = await axiosInstance.post(`/user/cart/${productId}`, data);
@@ -147,8 +137,6 @@ export const useUserStore = create((set,) => ({
     }));
 
 
-
-// login: async (data) => {
 //     set({ isLoading: true });
 //     try {
 //         const { data: resData } = await axiosInstance.post("/user/login", data);

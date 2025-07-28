@@ -10,23 +10,24 @@ import {
     getPrivacyPolicyData,
     insertPrivacyPolicyData,
 } from '../controllers/contactUs.controller.js';
+import { protectRoute } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
 
 //// contactUs routes ////
 router.get('/data', getContactUsData);
-router.post('/insert/help-data', insertHelpingDetails);
-router.post('/insert/address-details', insertAddressDetails);
+router.post('/insert/help-data', protectRoute, insertHelpingDetails);
+router.post('/insert/address-details', protectRoute, insertAddressDetails);
 
 //// aboutUs routes ////
 router.get('/about-us', getAboutUsData);
-router.put('/about-us/content', editAboutUsContent);
-router.put('/about-us/middle', updateAboutUsMiddleData);
-router.put('/about-us/footer', updateFooterHighlights);
+router.put('/about-us/content', protectRoute, editAboutUsContent);
+router.put('/about-us/middle', protectRoute, updateAboutUsMiddleData);
+router.put('/about-us/footer', protectRoute, updateFooterHighlights);
 
 //// PrivacyPolicy ////
 router.get("/privacy-policy/get", getPrivacyPolicyData);
-router.post("/privacy-policy/insert", insertPrivacyPolicyData);
+router.post("/privacy-policy/insert", protectRoute, insertPrivacyPolicyData);
 
 
 

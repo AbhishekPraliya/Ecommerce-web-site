@@ -9,8 +9,10 @@ import { ArrowUp } from 'lucide-react';
 import { useWebHomeStore } from '../../Store/useWebStores/useWebHomeStore.js';
 import { useCategoryStore } from '../../Store/useWebStores/useCategoryStore.js';
 import { useDataStore } from '../../Store/useDataStore.js';
+import {useWebNavStore} from "../../Store/useWebStores/useWebNavStore"
 
 function HomePage() {
+    const {setIsLoadingComponent} = useWebNavStore();
     const {gender} = useDataStore()
     const { categoryMap,fetchCategories } = useCategoryStore()
     const { getHomeData, homePageData } = useWebHomeStore();
@@ -48,7 +50,9 @@ function HomePage() {
     useEffect(() => {
         
         const handelGetData=async()=>{
+            setIsLoadingComponent(true);
             await getHomeData();
+            setIsLoadingComponent(false);
         }
         handelGetData();
         // eslint-disable-next-line react-hooks/exhaustive-deps

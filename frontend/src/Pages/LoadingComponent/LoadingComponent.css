@@ -4,7 +4,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(225, 225, 225, 0.9);
+    background-color: rgba(230, 230, 230, 0.9);
     /* 90% opacity white */
     display: flex;
     align-items: center;
@@ -15,7 +15,7 @@
 .loading-component-image {
     height: 100px;
     transition: opacity 0.2s ease-in-out;
-    opacity: 0.8;
+    opacity: 1;
 }
 
 @media (max-width:500px) {

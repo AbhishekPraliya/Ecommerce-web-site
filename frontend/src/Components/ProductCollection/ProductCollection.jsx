@@ -20,7 +20,7 @@ const ProductCollection = () => {
     useEffect(() => {
         const routeArray= pathname.split('/'); // e.g., 'tshirt', 'offer--buy-1-get-1', etc.
         const routeName = routeArray[routeArray.length-1]
-        console.log("routeName",routeName);
+        // console.log("routeName",routeName);
         const query = new URLSearchParams(location.search);
 
         const filtersArray = [];
@@ -40,7 +40,7 @@ const ProductCollection = () => {
             const [offerValue,] = routeName.split("--offer"); // e.g., ['offer', 'buy-1-get-1']
             fetchFunction = (page) => getProductsByOffer({ offer: offerValue, filterItems, skip: (page - 1) * limit, limit });
         } else if (routeName === "all-cloths") {
-            console.log("all-cloths");
+            // console.log("all-cloths");
             fetchFunction = (page) => getProductsByAllCategories({ filterItems, skip: (page - 1) * limit, limit });
         } else if (routeName.endsWith("--trending")) {
             const [gender,] = routeName.split("-");
@@ -48,7 +48,7 @@ const ProductCollection = () => {
         } else if (routeName === "search") {
             fetchFunction = (page) => getProductsBySearchKeyword({ keyword, filterItems, skip: (page - 1) * limit, limit });
         } else {
-            console.log(" routeName.split(--)[1]", routeName.split("--")[1])
+            // console.log(" routeName.split(--)[1]", routeName.split("--")[1])
             // default: categoryName route like /tshirt
             fetchFunction = (page) => getProductsByCategory({ categoryId: routeName.split("--")[1],categoryName: routeName.split("--")[0], filterItems, skip: (page - 1) * limit, limit });
         }

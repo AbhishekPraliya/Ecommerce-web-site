@@ -1,20 +1,20 @@
 import { create } from "zustand";
-import {axiosInstance} from "../../lib/axios.js"; // baseURL should be set
+import { axiosInstance } from "../../lib/axios.js"; // baseURL should be set
 
-export const useCategoryStore = create((set,get) => ({
+export const useCategoryStore = create((set, get) => ({
     categoryMap: {},
-    categoryObj:{},
-    newCategory:{"new":[]},
+    categoryObj: {},
+    newCategory: { "new": [] },
     setCategoryMap: (data) => set({ categoryMap: data }),
 
-    setCategoryObj:(data)=>{
+    setCategoryObj: (data) => {
         const tempObj = {};
         Object.values(data).forEach((categoryList) => {
             categoryList.forEach(({ _id, categoryName }) => {
                 tempObj[_id] = categoryName;
             });
         });
-        set({categoryObj:tempObj});
+        set({ categoryObj: tempObj });
     },
 
     fetchCategories: async () => {
@@ -44,6 +44,40 @@ export const useCategoryStore = create((set,get) => ({
         } catch (err) {
             console.error("Failed to create category", err);
         }
-    }
+    },
+
+    editCategory: async (id, updatedData) => {
+        try {
+            const res = await axiosInstance.put(`/category/${id}`, updatedData);
+            set((state) => ({
+                categories: state.categories?.map((cat) =>
+                    cat._id === id ? res.data.category : cat
+                ),
+            }));
+        } catch (err) {
+            console.error("Failed to edit category", err);
+        }
+    },
+
+    deleteCategory: async (id) => {
+        try {
+            await axiosInstance.delete(`/category/${id}`);
+            set((state) => ({
+                newCategory: {
+                    ...state.newCategory,
+                    new: state.newCategory?.new?.filter((cat) => cat._id !== id),
+                },
+            }));
+            set((state) => ({
+                categoryMap: {
+                    ...state.categoryMap,
+                    new: state.categoryMap?.map(([, categories])=>
+                        categories?.filter((cat) => cat._id !== id),
+            )},
+            }));
+        } catch (err) {
+            console.error("Failed to delete category", err);
+        }
+    },
 
 }));

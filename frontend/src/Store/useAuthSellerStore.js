@@ -140,17 +140,30 @@ export const useSellerStore = create((set,) => ({
             toast.error("Failed to upload products");
         }
     },
+    
+    updateProduct: async (id, data) => {
+        try {
+            const res = await axiosInstance.put(`/seller/product/${id}`, data);
+            set((state) => ({
+                products: state.products.map(p => p._id === id ? res.data : p)
+            }));
+        } catch (err) {
+            console.error("Failed to update product", err);
+        }
+    },
+
+    deleteProduct: async (id) => {
+        try {
+            await axiosInstance.delete(`/seller/product/${id}`);
+            set((state) => ({
+                products: state.products.filter(p => p._id !== id)
+            }));
+        } catch (err) {
+            console.error("Failed to delete product", err);
+        }
+    },
 
 
 
 
-    // updatePaymentGatewayDetails: async (sellerId, data) => {
-    //     try {
-    //         const res = await axiosInstance.put(`/seller/gateway/${sellerId}`, data);
-    //         set({ sellerData: res.data });
-    //         toast.success("Payment gateway updated");
-    //     } catch (error) {
-    //         toast.error(error.response?.data?.message || "Payment update failed");
-    //     }
-    // },
 }));

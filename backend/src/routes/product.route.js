@@ -1,14 +1,7 @@
 // routes/product.routes.js
 import express from "express";
 import {
-    createProduct,
-    updateProduct,
-    deleteProduct,
     getProduct,
-    // getAllProducts,
-    getProductsBySearch,
-    getProductsByBrandId,
-    getProductsByIdList,
     getMultipleProducts,
     getProductsByCategoryId,
     getProductsByCategoryArray,
@@ -20,14 +13,8 @@ import {
 
 const router = express.Router();
 
-router.get("/:id", getProduct);
-router.post("/create", createProduct);
-router.put("/update/:id", updateProduct);
-router.delete("/delete/:id", deleteProduct);
-router.get("/search", getProductsBySearch);
-router.get("/brand/:id", getProductsByBrandId);
-router.post("/list", getProductsByIdList);
 
+router.get("/:id", getProduct);
 router.post("/multiple", getMultipleProducts); // POST is better for sending array in body
 router.post("/category/:categoryId", getProductsByCategoryId);
 

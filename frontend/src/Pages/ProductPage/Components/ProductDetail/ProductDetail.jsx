@@ -2,63 +2,6 @@ import React, { useState } from "react";
 import "./ProductDetail.css";
 import { Heart, ShoppingBag, Star } from "lucide-react";
 
-// const productDetails = {
-// brand: "Bewakoof®",
-//     name: "Men's Purple T-shirt",
-//     price: 399,
-//     originalPrice: 899,
-//     discount: 55,
-//     rating: 4.2,
-//     reviews: 5,
-//     colors: [
-//         "#ffffff",
-//         "#0a0a1f",
-//         "#fcf7b0",
-//         "#835aff",
-//         "#f6e9f0",
-//         "#cdbddf",
-//         "#f4e1cb",
-//         "#e3e4dd",
-//         "#f572a1",
-//         "#034437",
-//         "#e7effb",
-//         "#cbf787",
-//         "#56603f",
-//         "#f5f3f2",
-//         "#a55446",
-//     ],
-//     selectedColor: "Color",
-//     sizes: ["S", "M", "L", "XL", "2XL"],
-//     outOfStockSize: "3XL",
-//     lowStockSize: "2XL",
-//     offer: "Buy 3 for 999",
-    
-//     keyHighlights: {
-//         Design: "Graphic Print",
-//         Fit: "Regular Fit",
-//         Neck: "Round Neck",
-//         Occasion: "Casual Wear",
-//         "Sleeve Style": "Half Sleeve",
-//         "Wash Care": "Gentle Machine Wash",
-//     },
-
-//     productDescription: "Manufacture, Care and Fit",
-
-//     productRatings: [
-//         { userId: "u101", userName: "Ravi", rating: 5, dateTime: "2025-06-25 14:32" },
-//         { userId: "u102", userName: "Sneha", rating: 4, dateTime: "2025-06-26 10:18" },
-//         { userId: "u103", userName: "Amit", rating: 3, dateTime: "2025-06-24 19:05" },
-//         { userId: "u104", userName: "Meena", rating: 2, dateTime: "2025-06-23 08:45" },
-//         { userId: "u105", userName: "John", rating: 1, dateTime: "2025-06-22 16:55" },
-//     ],
-// };
-
-// brand
-// categories
-
-// image
-// moreImages
-
 
 const ProductDetail = ({productDetails}) => {
     const [selectedColor, setSelectedColor] = useState(productDetails?.colors[0]);
@@ -137,14 +80,14 @@ const ProductDetail = ({productDetails}) => {
                     </span>{" "}
                     {productDetails.offer.label || "Offer included"}
                     <div className="auto-applied">Auto applied offer</div>
-                    <a href="#view-all" className="view-all">
+                    {/* <a href="#view-all" className="view-all">
                         View all items ›
-                    </a>
+                    </a> */}
                 </div>
             </div>
                 
             {/* Delivery Section */}
-            <div className="delivery-box">
+            {/* <div className="delivery-box">
                 <p className="section-heading">Check for Delivery Details</p>
                 <div className="delivery-info">
                     <p>Delivering to <strong>135001</strong> ✏️</p>
@@ -154,7 +97,7 @@ const ProductDetail = ({productDetails}) => {
                         <p className="cod">💰 <strong>Cash on Delivery</strong> available</p>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             {/* Key Highlights */}
             <div className="key-highlights">
@@ -177,10 +120,10 @@ const ProductDetail = ({productDetails}) => {
                     <p><strong>📄 Product Description</strong></p>
                     <p className="accordion-sub">{productDetails.productDescription}</p>
                 </div>
-                <div className="accordion-item">
+                {/* <div className="accordion-item">
                     <p><strong>🔄 15 Days Returns & Exchange</strong></p>
                     <p className="accordion-sub">Know about return & exchange policy</p>
-                </div>
+                </div> */}
             </div>
 
             {/* Footer icons */}
@@ -191,15 +134,10 @@ const ProductDetail = ({productDetails}) => {
             </div>
 
             {/* Product Reviews Section */}
-            <div className="product-reviews-box">
+            {productDetails.rating? <div className="product-reviews-box">
                 <div className="review-tabs">
                     <button className="active">Product Reviews</button>
-                    <button className="inactive">Brand Reviews</button>
                 </div>
-
-                <p className="recommend-text">
-                    <span role="img" aria-label="thumbs-up">👍</span> <span className="recommend-percent">86%</span> of verified buyers recommend this product
-                </p>
 
                 <div className="review-rating-summary">
                     <div className="average-rating">4.4</div>
@@ -219,7 +157,7 @@ const ProductDetail = ({productDetails}) => {
                     <div className="bar-item"><span>2</span><div className="outer-bar"><div className="bar grey" style={{ width: '1%' }}></div></div><span className="count">(0)</span></div>
                     <div className="bar-item"><span>1</span><div className="outer-bar"><div className="bar red" style={{ width: '1%' }}></div></div><span className="count">(1)</span></div>
                 </div>
-            </div>
+            </div>:""}
 
 
         </div>)

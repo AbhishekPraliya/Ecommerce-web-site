@@ -5,8 +5,10 @@ import ProductDetail from './Components/ProductDetail/ProductDetail.jsx'
 import { useEffect, useState } from "react"
 import { useLocation} from "react-router-dom"
 import { useDataStore } from "../../Store/useDataStore.js"
+import {useWebNavStore} from "../../Store/useWebStores/useWebNavStore.js"
 
 const ProductPage = () => {
+  const {setIsLoadingComponent}= useWebNavStore();
   const {getProductById,productData} = useDataStore();
   const location = useLocation();
   const [productId, setProductId] = useState(null);
@@ -23,9 +25,10 @@ const ProductPage = () => {
     }
 
     useEffect(() => {
+      setIsLoadingComponent(true);
       const id = extractProductIdFromPath(location.pathname);
       setProductId(id);
-      console.log("productId=",productId);
+      // console.log("productId=",productId);
       
       
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -34,11 +37,12 @@ const ProductPage = () => {
     useEffect(() => {
       const handelGetProductById =async()=>{
         await getProductById(productId)
+        setIsLoadingComponent(false);
       }
       
       productId && handelGetProductById();
-    },[productId,getProductById])
-    console.log(productData);
+    },[productId,getProductById,setIsLoadingComponent])
+    // console.log(productData);
     
 
   if(!productData) return <div className="product-page-background-loading"></div>
@@ -54,7 +58,7 @@ const ProductPage = () => {
           <ProductDetail productDetails={productData}/>
         </section>
       </div>
-      <ProductSlider/>
+      <ProductSlider categoryId={productData.categories[0]} />
     </div>
   )
 }

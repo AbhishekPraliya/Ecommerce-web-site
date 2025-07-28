@@ -42,26 +42,27 @@ function App() {
       try {
         await getAccessTokenSilently(); // tries silent login
         const token = await getIdTokenClaims();
+        token?.__raw && await login({...user,token:token.__raw})
         // const res = await axiosInstance.post("/auth/login", {
         //     token: token.__raw,
         // });
-        console.log('token=', token);
+        // console.log('token=', token.__raw);
 
       } catch (error) {
         console.log("Silent login failed =", error);
       }
     };
     silentlyLogin();
-  }, []);
+  }, [user]);
 
-  useEffect(() => {
-    const handelLogin = async () => {
-      await login(user);
-      // console.log("loginWithBusinessAccount",localStorage.getItem("loginWithBusinessAccount"))
-      // console.log("loginData",loginData);
-    }
-    user && handelLogin();
-  }, [user])
+  // useEffect(() => {
+  //   const handelLogin = async () => {
+  //     await login(user);
+  //     // console.log("loginWithBusinessAccount",localStorage.getItem("loginWithBusinessAccount"))
+  //     // console.log("loginData",loginData);
+  //   }
+  //   user && handelLogin();
+  // }, [user])
 
   useEffect(() => {
     if (authUser && authUser.role === "user") {
@@ -73,34 +74,20 @@ function App() {
   useEffect(() => {
     let gender = localStorage.getItem("WebGender");
     if (gender === "female") {
-      console.log("female");
+      // console.log("female");
     } else if (gender === "male") {
-      console.log("male");
+      // console.log("male");
     } else {
       gender = "male"; // default value
       setGender(gender);
-      console.log("gender setting", gender);
+      // console.log("gender setting", gender);
     }
   }, [gender]);
 
   // const {user} = useAuth0();
   // const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const favicon = document.querySelector("link[rel~='icon']");
-  //   if (favicon) {
-  //     favicon.href = '/new-favicon.png'; // Your new favicon image
-  //   } else {
-  //     const newFavicon = document.createElement('link');
-  //     newFavicon.rel = 'icon';
-  //     newFavicon.href = '/new-favicon.png';
-  //     document.head.appendChild(newFavicon);
-  //   }
-  // document.title = 'Welcome to the Vibe';
-  // }, []);
 
-  // TODO: Add dark mode toggle
-  // console.log(window.matchMedia('(prefers-color-scheme: dark)'))
   return (
     <>
 

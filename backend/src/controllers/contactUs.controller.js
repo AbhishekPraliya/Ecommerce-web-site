@@ -26,6 +26,9 @@ export const getContactUsData = async (req, res) => {
 // INSERT or UPDATE helpData
 export const insertHelpingDetails = async (req, res) => {
     try {
+      if (req.userRole !== "owner") {
+        return res.status(403).json({ message: "You are not authorized" });
+      }
       // console.log(req.body);
         const helpData = req.body;
 
@@ -62,6 +65,9 @@ export const insertHelpingDetails = async (req, res) => {
 
 export const insertAddressDetails = async (req, res) => {
     try {
+        if (req.userRole !== "owner") {
+        return res.status(403).json({ message: "You are not authorized" });
+      }
         const addressDetails = req.body;
 
         if (!addressDetails || typeof addressDetails !== 'object') {
@@ -112,6 +118,9 @@ export const getAboutUsData = async (req, res) => {
 // Update aboutUsContent
 export const editAboutUsContent = async (req, res) => {
   try {
+    if (req.userRole !== "owner") {
+      return res.status(403).json({ message: "You are not authorized" });
+    }
     const aboutUsContent = req.body.aboutUsContent;
     let data = await AboutUs.findOne();
 
@@ -134,6 +143,9 @@ export const editAboutUsContent = async (req, res) => {
 // Update aboutUsMiddleData
 export const updateAboutUsMiddleData = async (req, res) => {
   try {
+    if (req.userRole !== "owner") {
+      return res.status(403).json({ message: "You are not authorized" });
+    }
     // console.log("edit middle the aboutUsData",req.body);
     const { aboutUsMiddleData } = req.body;
     let data = await AboutUs.findOne();
@@ -150,6 +162,9 @@ export const updateAboutUsMiddleData = async (req, res) => {
 // Update footer highlights
 export const updateFooterHighlights = async (req, res) => {
   try {
+    if (req.userRole !== "owner") {
+      return res.status(403).json({ message: "You are not authorized" });
+    }
     // console.log("edit footer the aboutUsData");
     const { footerHighlights } = req.body;
     let data = await AboutUs.findOne();
@@ -180,6 +195,9 @@ export const getPrivacyPolicyData = async (req, res) => {
 // Insert or update privacy policy
 export const insertPrivacyPolicyData = async (req, res) => {
   try {
+    if (req.userRole !== "owner") {
+      return res.status(403).json({ message: "You are not authorized" });
+    }
     const { sections } = req.body;
     // console.log("req.bocy",req.body);
     let updated;

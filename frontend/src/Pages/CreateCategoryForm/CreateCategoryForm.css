@@ -1,11 +1,11 @@
 .create-category-form-container {
-    background-color: white;
+    /* background-color: #f4f4f4; */
     color: black;
-    padding: 20px;
+    padding: 15px;
     border-radius: 8px;
     max-width: 800px;
     margin: auto;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }
 
 
@@ -16,11 +16,67 @@
   text-align: center;
 }
 
-.create-category-form {
+.create-category-form-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 8px;
+  border: solid 1px #ccc;
 }
+
+.create-category-form-li{
+  cursor: pointer;
+}
+
+.create-category-form-edit-delete-button{
+  border: solid black 1px;
+  padding: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: rgba(127, 255, 212, 0.396);
+}
+.create-category-form-edit-delete-button p{
+  color: black;
+  
+}
+.create-category-form-edit-delete-button b{
+  color: blue;
+  font-size: 25px;
+}
+.create-category-form-button-container{
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+.create-category-form-button-container button{
+  flex: 1;
+}
+.create-category-form-edit-delete-button .create-category-form-edit-button{
+  background-color: rgb(46, 46, 251);
+  color: black;
+  font-size: 20px;
+}
+.create-category-form-edit-delete-button .create-category-form-delete-button{
+  background-color: rgb(251, 36, 36);
+  color: black;
+  font-size: 20px;
+}
+.create-category-form-button{
+  background-color: green;
+}
+.create-category-form-cancel-button{
+  background-color: blue;
+}
+
+@media (max-width:500px) {
+  .create-category-form-form{
+    padding: 5px;
+  }
+}
+
+
 
 .create-category-form label {
   display: flex;

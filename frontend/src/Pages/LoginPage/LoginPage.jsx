@@ -7,6 +7,7 @@ import loginPageImg from "../../assets/login-page-img.png";
 import microsoftLogo from "../../assets/microsoft-logo.png";
 import "./LoginPage.css";
 import { useAuthStore } from "../../Store/useAuthStore";
+// import {useGoogleLogin} from '@react-oauth/google'
 
 const LoginPage = () => {
     const {loginWithBusinessAccount,setLoginWithBusinessAccount} = useAuthStore();
@@ -15,6 +16,7 @@ const LoginPage = () => {
     const { loginWithRedirect } = useAuth0();
 
     const handleLogin = (provider) => {
+        localStorage.setItem("loginWithBusinessAccount", "false");
         loginWithRedirect({ connection: provider,});
     };
     useEffect(()=>{
@@ -24,6 +26,8 @@ const LoginPage = () => {
         }
     //  eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
+
+
 
     const handleLoginWithBusinessAccount = async () => {
         try {

@@ -24,6 +24,19 @@ const PORT = process.env.PORT || 5001;
 const __dirname = path.resolve()
 
 
+// const config = {
+//     authRequired: false,
+//     auth0Logout: true,
+//     baseURL: 'http://localhost:3000',
+//     clientID: 'a84Rr6D9Pmx8CYVP5yYESaS0vDK7pKzR',
+//     issuerBaseURL: 'https://dev-v1b5qi2oaj7rxnb7.us.auth0.com',
+//     secret: 'LONG_RANDOM_STRING'
+// };
+// // The `auth` router attaches /login, /logout
+// // and /callback routes to the baseURL
+// app.use(auth(config));
+
+
 app.use(express.json());
 app.use(express.json({limit:"100mb"}));
 app.use(express.urlencoded({limit:"100mb", extended:true}));
@@ -56,15 +69,15 @@ if(process.env.NODE_ENV==="production"){
 
 
 
-// app.listen(PORT,()=>{
-//     console.log("Hello Abhishek, Server is running on port - ",PORT);
-//     connectDB();
-// })
+app.listen(PORT,()=>{
+    console.log("Hello Abhishek, Server is running on port - "+PORT);
+    connectDB();
+})
 
-connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log("✅ Server started on port " + PORT);
-  });
-}).catch((err) => {
-  console.error("❌ DB connection failed", err);
-});
+// connectDB().then(() => {
+//   app.listen(PORT, () => {
+//     console.log("✅ Server started on port " + PORT);
+//   });
+// }).catch((err) => {
+//   console.error("❌ DB connection failed", err);
+// });

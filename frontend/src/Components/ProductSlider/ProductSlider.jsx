@@ -7,10 +7,11 @@ import {useNavigate} from 'react-router-dom';
 import {useDataStore} from '../../Store/useDataStore.js';
 import { useState } from 'react';
 import { useEffect } from 'react';
-
+import {useCategoryStore} from '../../Store/useWebStores/useCategoryStore.js'
 // let gender = localStorage.getItem("WebGender");
 
-const ProductSlider = ({categoryId,categoryObj}) => {
+const ProductSlider = ({categoryId}) => {
+    const {categoryObj}=useCategoryStore();
     const scrollRef = useRef();
     const navigate = useNavigate();
     const {getProductsByCategoryId} = useDataStore();
@@ -20,14 +21,14 @@ const ProductSlider = ({categoryId,categoryObj}) => {
 
     useEffect(() => {
     let storedGender = localStorage.getItem("WebGender");
-    console.log("gender=",storedGender)
+    // console.log("gender=",storedGender)
     setGender(storedGender)
     }, [])
     
     useEffect(() => {
         let storedGender = localStorage.getItem("WebGender");
         const getProducts=async()=>{
-            console.log("gender=",storedGender)
+            // console.log("gender=",storedGender)
             const res = await getProductsByCategoryId({categoryId,gender:storedGender});
             if(res){
                 setProducts(res);

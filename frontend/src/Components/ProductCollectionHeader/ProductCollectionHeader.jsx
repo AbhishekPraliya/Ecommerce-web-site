@@ -15,14 +15,14 @@ const ProductCollectionHeader = ({  productNum = 0 }) => {
     const pathnameArr=pathname.split("/");
     const headingName=pathnameArr[pathnameArr.length-1];
     const collectionHeading=headingName.charAt(0).toUpperCase() + headingName.slice(1)
-    console.log(collectionHeading);
+    // console.log(collectionHeading);
 
     return (
         <div className="pch-container">
             {/* Left side */}
             <div className="pch-left">
                 <h2 className="pch-title">
-                    <span className="pch-term">{collectionHeading.split("--")[0]}</span>
+                    <span className="pch-term">{collectionHeading.split("--")[0].split("-").join(" ")}</span>
                     {searchQuery && <span className="pch-term"> Results For : "{searchQuery.split('+').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}"</span>}
                     <span className="pch-count">({productNum} Products)</span>
                 </h2>

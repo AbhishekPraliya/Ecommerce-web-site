@@ -384,7 +384,7 @@ export const insertImageSliderData = async (req, res) => {
 
 export const insertAdvertisementPanelData = async (req, res) => {
     const { gender } = req.params;
-    console.log("req.body", req.body);
+    // console.log("req.body", req.body);
     const advertisementPanel = req.body.data; // expecting an array of { image, route, offerEndDate }
 
     if (!["male", "female"].includes(gender)) {
@@ -454,7 +454,7 @@ export const getSocialMediaLinks = async (req, res) => {
         const websiteData = await WebsiteData.findOne(); // Assuming single site data
         if (!websiteData) return res.status(404).json({ message: "Website data not found" });
 
-        console.log("websiteData",websiteData.socialMediaLinks);
+        // console.log("websiteData",websiteData.socialMediaLinks);
         res.status(200).json(websiteData.socialMediaLinks || {});
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -471,7 +471,7 @@ export const updateSocialMediaLinks = async (req, res) => {
             snapchat = "",
             youtube = ""
         } = req.body;
-        console.log("req.body",req.body);
+        // console.log("req.body",req.body);
 
         let websiteData = await WebsiteData.findOne();
 

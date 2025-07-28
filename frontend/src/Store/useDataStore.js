@@ -21,6 +21,7 @@ export const useDataStore = create((set, get) => ({
 
             const res = await axiosInstance.get(`/product/${productId}`);
             set({ productData: res.data, loading: false });
+            return res.data;
         } catch (err) {
             console.error("Error fetching product:", err);
             set({ loading: false });
@@ -37,10 +38,9 @@ export const useDataStore = create((set, get) => ({
     },
     getProductsByCategoryId: async ({ categoryId, gender }) => {
         try {
-            console.log("gender=", gender)
+            // console.log("gender=", gender)
             const res = await axiosInstance.post(`/product/category/${categoryId}`, { gender });
-            // console.log("Fetched multiple products:", res.data);
-            console.log("productsByCategory=", res.data.products)
+            // console.log("productsByCategory=", res.data.products)
             return res.data.products;
         } catch (err) {
             console.error("Failed to fetch products by CategoryId", err);
@@ -49,14 +49,22 @@ export const useDataStore = create((set, get) => ({
 
 
     getProductsByCategory: async (data) => {
-        const res = await axiosInstance.post('/product/filter/category', data);
-        set({ filteredProducts: res.data });
-        return res.data;
+        try {
+            const res = await axiosInstance.post('/product/filter/category', data);
+            set({ filteredProducts: res.data });
+            return res.data;
+        } catch (err) {
+            console.error("Failed to fetch products by category", err);
+        }
     },
     getProductsByOffer: async (data) => {
-        const res = await axiosInstance.post('/product/filter/offer', data);
-        set({ filteredProducts: res.data });
-        return res.data;
+        try {
+            const res = await axiosInstance.post('/product/filter/offer', data);
+            set({ filteredProducts: res.data });
+            return res.data;
+        } catch (err) {
+            console.error("Failed to fetch products by offer", err);
+        }
     },
 
     getProductsByAllCategories: async (data) => {
@@ -85,6 +93,7 @@ export const useDataStore = create((set, get) => ({
         try {
             const res = await axiosInstance.post('/product/filter/search', data);
             set({ filteredProducts: res.data, loading: false });
+            return res.data
         } catch (err) {
             set({ error: err.message, loading: false });
         }

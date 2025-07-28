@@ -11,12 +11,12 @@ import loadingIcon6 from '../../assets/loading-icon-6.png';
 import { useWebNavStore } from "../../Store/useWebStores/useWebNavStore";
 
 const loadingImages = [
+    loadingIcon6,
     loadingIcon3,
     loadingIcon4,
     loadingIcon1,
     loadingIcon5,
     loadingIcon2,
-    loadingIcon6,
 ];
 
 const LoadingComponent = () => {

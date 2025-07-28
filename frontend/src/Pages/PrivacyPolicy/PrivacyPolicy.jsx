@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./PrivacyPolicy.css";
 import { useWebContactUsStore } from "../../Store/useWebStores/useWebContactUsStore";
-
+import {useWebNavStore} from "../../Store/useWebStores/useWebNavStore"
 // const privacyPolicyData = [
 //     {
 //         subHeading: "COLLECTION OF PERSONAL INFORMATION",
@@ -42,13 +42,16 @@ import { useWebContactUsStore } from "../../Store/useWebStores/useWebContactUsSt
 // ];
 
 export default function PrivacyPolicy() {
+    const {setIsLoadingComponent} = useWebNavStore();
     const {getPrivacyPolicyData} = useWebContactUsStore();
     const [privacyPolicyData, setPrivacyPolicyData] = useState([])
 
     useEffect(() => {
         const fetchData = async () => {
+            setIsLoadingComponent(true);
             const res = await getPrivacyPolicyData();
             if (res?.length) setPrivacyPolicyData(res);
+            setIsLoadingComponent(false);
         };
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
