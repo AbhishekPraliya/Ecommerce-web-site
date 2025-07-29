@@ -14,7 +14,6 @@ import {
 const router = express.Router();
 
 
-router.get("/:id", getProduct);
 router.post("/multiple", getMultipleProducts); // POST is better for sending array in body
 router.post("/category/:categoryId", getProductsByCategoryId);
 
@@ -25,6 +24,7 @@ router.post('/filter/offer', getProductsByOffer);
 router.post('/filter/all-categories', getProductsByAllCategories);
 router.post('/filter/category-array', getProductsByCategoryArray);
 
+router.get("/:id", getProduct);
 
 
 // insertCategoriesInProducts();
