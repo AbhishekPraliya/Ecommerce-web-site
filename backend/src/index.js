@@ -10,7 +10,7 @@ import contactUsRoutes from './routes/contactUs.route.js';
 import categoryRoutes from './routes/category.route.js'
 
 import {connectDB} from "./lib/db.js"
-console.log("k");
+// console.log("k");
 
 import dotenv from "dotenv"
 import cookieParser from "cookie-parser"
