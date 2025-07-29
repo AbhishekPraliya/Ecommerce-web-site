@@ -75,15 +75,15 @@ try {
 console.log("✅ PORT - ", PORT);
 console.log("NODE_ENV - ", process.env.NODE_ENV);
 if(process.env?.NODE_ENV==="production"){
-    console.log("✅ Production mode enabled");
+    console.log("✅ 1");
     app.use(express.static(path.join(__dirname,"../frontend/dist")));
-    console.log("✅ Production mode enabled");
+    console.log("✅ 2");
     
     
     app.get("/*",(req,res)=>{
-        res.sendFile(path.join(__dirname,"../frontend","dist","index.html"));
+        res.sendFile(path.join(__dirname,"../frontend/dist/index.html"));
     })
-    console.log("✅ Production mode enabled");
+    console.log("✅ 3");
 }
 
 
