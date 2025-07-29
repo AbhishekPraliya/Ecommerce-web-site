@@ -1,16 +1,26 @@
 import express from "express"
-
+console.log("a");
 import authRoutes from "./routes/auth.route.js"
+console.log("b");
 import userRoutes from "./routes/user.route.js"
+console.log("c");
 import sellerRoutes from "./routes/seller.route.js"
+console.log("d");
 import ownerRoutes from "./routes/owner.route.js"
+console.log("e");
 import emailRoleRoutes from './routes/emailRole.route.js'
+console.log("f");
 import productRoutes from "./routes/product.route.js"
+console.log("g");
 import webRoutes from "./routes/web.route.js"
+console.log("h");
 import contactUsRoutes from './routes/contactUs.route.js';
+console.log("i");
 import categoryRoutes from './routes/category.route.js'
+console.log("j");
 
 import {connectDB} from "./lib/db.js"
+console.log("k");
 
 import dotenv from "dotenv"
 import cookieParser from "cookie-parser"
