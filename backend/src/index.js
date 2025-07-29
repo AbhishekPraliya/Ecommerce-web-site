@@ -74,16 +74,16 @@ try {
 
 console.log("✅ PORT - ", PORT);
 console.log("NODE_ENV - ", process.env.NODE_ENV);
-if(process.env?.NODE_ENV==="production"){
+if(process.env?.NODE_ENV!=="production"){
     console.log("✅ 1");
-    app.use(express.static(path.join(__dirname,"../frontend/dist")));
-    console.log(path.resolve(__dirname,"../frontend/dist/index.html"));
+    app.use(express.static(path.join(__dirname,"../../frontend/dist")));
+    console.log(path.resolve(__dirname, "../../frontend", "dist", "index.html"));
     
     
     console.log("✅ 3");
     app.get("/*",(req,res)=>{
         console.log("✅ 4");
-        res.sendFile(path.resolve(__dirname,"../frontend/dist/index.html"));
+        res.sendFile(path.resolve(__dirname, "../../frontend", "dist", "index.html"));
     })
 }
 
