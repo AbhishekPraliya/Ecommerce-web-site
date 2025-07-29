@@ -10,7 +10,6 @@ import contactUsRoutes from './routes/contactUs.route.js';
 import categoryRoutes from './routes/category.route.js'
 
 import {connectDB} from "./lib/db.js"
-console.log("k");
 
 import dotenv from "dotenv"
 import cookieParser from "cookie-parser"
@@ -71,6 +70,8 @@ try {
     console.error("❌ Failed to load /api/product:", err);
 }
 
+console.log("✅ PORT - ", PORT);
+console.log("NODE_ENV - ", process.env.NODE_ENV);
 if(process.env.NODE_ENV==="production"){
     app.use(express.static(path.join(__dirname,"../frontend/dist")));
 
@@ -80,7 +81,6 @@ if(process.env.NODE_ENV==="production"){
     })
     console.log("✅ Production mode 123");
 }
-console.log("✅ PORT - ", PORT);
 
 
 
