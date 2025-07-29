@@ -1,23 +1,13 @@
 import express from "express"
-console.log("a");
 import authRoutes from "./routes/auth.route.js"
-console.log("b");
 import userRoutes from "./routes/user.route.js"
-console.log("c");
 import sellerRoutes from "./routes/seller.route.js"
-console.log("d");
 import ownerRoutes from "./routes/owner.route.js"
-console.log("e");
 import emailRoleRoutes from './routes/emailRole.route.js'
-console.log("f");
 import productRoutes from "./routes/product.route.js"
-console.log("g");
 import webRoutes from "./routes/web.route.js"
-console.log("h");
 import contactUsRoutes from './routes/contactUs.route.js';
-console.log("i");
 import categoryRoutes from './routes/category.route.js'
-console.log("j");
 
 import {connectDB} from "./lib/db.js"
 console.log("k");
@@ -59,24 +49,15 @@ app.use(cors({
 
 try {
 app.use("/api/auth", authRoutes )
-console.log(1);
 app.use("/api/owner", ownerRoutes )
-console.log(2);
 app.use("/api/user", userRoutes )
-console.log(3);
 app.use("/api/seller", sellerRoutes )
-console.log(4);
 
 app.use("/api/product", productRoutes )
-console.log(5);
 app.use("/api/web", webRoutes )
-console.log(6);
 app.use("/api/email-roles", emailRoleRoutes )
-console.log(7);
 app.use('/api/contact-us', contactUsRoutes);
-console.log(8);
 app.use('/api/category', categoryRoutes);
-console.log(9);
 } catch (err) {
   console.error("❌ Failed to load /api/product:", err);
 }
