@@ -47,6 +47,7 @@ app.use(cors({
     credentials: true,
 }))
 
+try {
 app.use("/api/auth", authRoutes )
 app.use("/api/owner", ownerRoutes )
 app.use("/api/user", userRoutes )
@@ -57,6 +58,9 @@ app.use("/api/web", webRoutes )
 app.use("/api/email-roles", emailRoleRoutes )
 app.use('/api/contact-us', contactUsRoutes);
 app.use('/api/category', categoryRoutes);
+} catch (err) {
+  console.error("❌ Failed to load /api/product:", err);
+}
 
 if(process.env?.NODE_ENV==="production"){
     app.use(express.static(path.join(__dirname,"../frontend/dist")));
