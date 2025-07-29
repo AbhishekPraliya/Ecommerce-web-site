@@ -10,6 +10,7 @@ import contactUsRoutes from './routes/contactUs.route.js';
 import categoryRoutes from './routes/category.route.js'
 
 import {connectDB} from "./lib/db.js"
+console.log("k");
 
 import dotenv from "dotenv"
 import cookieParser from "cookie-parser"
@@ -25,7 +26,7 @@ const __dirname = path.dirname(__filename);
 const app=express();
 
 dotenv.config();
-const PORT = 5011;
+const PORT = Number(process.env.PORT) || 5001;
 
 
 app.use(express.json());
@@ -70,16 +71,19 @@ try {
     console.error("❌ Failed to load /api/product:", err);
 }
 
+
 console.log("✅ PORT - ", PORT);
 console.log("NODE_ENV - ", process.env.NODE_ENV);
-if(process.env.NODE_ENV==="production"){
+if(process.env?.NODE_ENV==="production"){
+    console.log("✅ Production mode enabled");
     app.use(express.static(path.join(__dirname,"../frontend/dist")));
-
-
-    app.get("*",(req,res)=>{
+    console.log("✅ Production mode enabled");
+    
+    
+    app.get("/*",(req,res)=>{
         res.sendFile(path.join(__dirname,"../frontend","dist","index.html"));
     })
-    console.log("✅ Production mode 123");
+    console.log("✅ Production mode enabled");
 }
 
 
