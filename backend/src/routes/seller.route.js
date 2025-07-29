@@ -16,7 +16,6 @@ import {protectRoute} from "../middleware/auth.middleware.js"
 const router = express.Router();
 
 
-router.get("/:userId", getSeller);
 
 router.get("/orders/:sellerId", getOrdersDetails);
 router.get("/business/:sellerId", getBusiness);
@@ -40,6 +39,7 @@ router.put("/product/:id",protectRoute, updateProduct);
 router.delete("/product/:id", protectRoute, deleteProduct);
 
 
-
+// moved from the top
+router.get("/:userId", getSeller);
 
 export default router;

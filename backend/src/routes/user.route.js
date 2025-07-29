@@ -21,12 +21,6 @@ import {protectRoute} from "../middleware/auth.middleware.js"
 const router = express.Router();
 
 
-router.get("/:userId", getUser);
-router.get("/all", getAllUsers);
-
-router.post("/cart/:productId",protectRoute, addProductIntoCart);
-router.get("/cart/:userId", getCartData);
-router.delete("/cart/:productId",protectRoute, deleteProductFromCart);
 
 router.post("/wishlist/:productId",protectRoute, addProductIntoWishlist);
 router.get("/wishlist/:userId", getUserWishlist);
@@ -40,6 +34,12 @@ router.get("/payment/:userId",protectRoute, getPaymentData);
 
 router.put("/cart/size/:productId", protectRoute, updateCartProductSize);
 router.put("/cart/quantity/:productId", protectRoute, updateCartProductQuantity);
+router.post("/cart/:productId",protectRoute, addProductIntoCart);
+router.delete("/cart/:productId",protectRoute, deleteProductFromCart);
+router.get("/cart/:userId", getCartData);
+
+router.get("/all", getAllUsers);
+router.get("/:userId", getUser);
 
 
 export default router;
