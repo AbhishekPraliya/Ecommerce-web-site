@@ -74,7 +74,7 @@ try {
 
 console.log("✅ PORT - ", PORT);
 console.log("NODE_ENV - ", process.env.NODE_ENV);
-if(process.env?.NODE_ENV!=="production"){
+if(process.env.NODE_ENV==="production"){
     console.log("✅ 1");
     app.use(express.static(path.join(__dirname,"../../frontend/dist")));
     console.log(path.resolve(__dirname, "../../frontend", "dist", "index.html"));
