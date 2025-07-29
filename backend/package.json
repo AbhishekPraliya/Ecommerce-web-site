@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index.js",
-    "dev": "nodemon src/index.js"
+    "start": "nodemon --trace-uncaught src/index.js",
+    "dev": "nodemon --trace-uncaught src/index.js"
   },
   "author": "",
   "license": "ISC",
