@@ -59,17 +59,17 @@ export default function PrivacyPolicy() {
     return (
         <div className="privacy-policy-page-container">
             <h1 className="privacy-policy-page-heading">Privacy Policy</h1>
-            {privacyPolicyData.map((section, index) => (
+            {privacyPolicyData?.map((section, index) => (
                 <div className="privacy-policy-page-section" key={index}>
-                    {section.subHeading && (
+                    {section?.subHeading && (
                         <h2 className="privacy-policy-page-subheading">{section.subHeading}</h2>
                     )}
-                    {section.paragraphs && section.paragraphs.map((para, i) => (
+                    {section?.paragraphs && section?.paragraphs.map((para, i) => (
                         <p className="privacy-policy-page-paragraph" key={i}>{para}</p>
                     ))}
-                    {section.points && (
+                    {section?.points && (
                         <ul className="privacy-policy-page-points">
-                            {section.points.map((point, j) => (
+                            {section?.points.map((point, j) => (
                                 <li className="privacy-policy-page-point" key={j}>{point}</li>
                             ))}
                         </ul>

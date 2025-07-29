@@ -58,13 +58,14 @@ export const loginBusinessAccount = async (req, res) => {
                 role: matchedEntry.role,
             }
         }
-        // console.log("Matched email entry:", matchedEntry);
-        if (!userData && email !== process.env.OWNER_EMAIL) {
+        let OWNER_EMAIL= process.env.OWNER_EMAIL || "";
+        
+        if (!userData && email !== OWNER_EMAIL) {
             // console.log("Unauthorized email:", email);
             return res.status(403).json({ message: "Unauthorized email" });
         }
 
-        if (email === process.env.OWNER_EMAIL || userData.role === "owner") {
+        if (email === OWNER_EMAIL || userData.role === "owner") {
             let owner = await Owner.findOne({ email });
             if (!owner) {
                 owner = new Owner(req.body);

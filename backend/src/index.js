@@ -58,7 +58,7 @@ app.use("/api/email-roles", emailRoleRoutes )
 app.use('/api/contact-us', contactUsRoutes);
 app.use('/api/category', categoryRoutes);
 
-if(process.env.NODE_ENV==="production"){
+if(process.env?.NODE_ENV==="production"){
     app.use(express.static(path.join(__dirname,"../frontend/dist")));
 
 
