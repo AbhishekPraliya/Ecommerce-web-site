@@ -10,38 +10,18 @@ import contactUsRoutes from './routes/contactUs.route.js';
 import categoryRoutes from './routes/category.route.js'
 
 import {connectDB} from "./lib/db.js"
-// console.log("k");
+console.log("k");
 
 import dotenv from "dotenv"
 import cookieParser from "cookie-parser"
 import cors from "cors";
 import path from 'path';
-import { fileURLToPath } from "url";
-import fs from "fs";
-
-// ✅ Fix for __dirname in ES Modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 
 const app=express();
 
 dotenv.config();
-// const PORT = Number(process.env.PORT) || 5001;
-const PORT = 5001;
-
-
-app.use(express.json());
-app.use(express.json({limit:"50mb"}));
-app.use(express.urlencoded({limit:"50mb", extended:true}));
-
-app.use(cookieParser());
-app.use(cors({
-    origin:"http://localhost:5173",
-    credentials: true,
-}))
-
-
+const PORT = process.env.PORT || 5001;
+const __dirname = path.resolve()
 
 
 // const config = {
@@ -57,44 +37,37 @@ app.use(cors({
 // app.use(auth(config));
 
 
+app.use(express.json());
+app.use(express.json({limit:"50mb"}));
+app.use(express.urlencoded({limit:"50mb", extended:true}));
+
+app.use(cookieParser());
+app.use(cors({
+    origin:"http://localhost:5173",
+    credentials: true,
+}))
 
 try {
-    app.use("/api/auth", authRoutes )
-    app.use("/api/owner", ownerRoutes )
-    app.use("/api/user", userRoutes )
-    app.use("/api/seller", sellerRoutes )
+app.use("/api/auth", authRoutes )
+app.use("/api/owner", ownerRoutes )
+app.use("/api/user", userRoutes )
+app.use("/api/seller", sellerRoutes )
 
-    app.use("/api/product", productRoutes )
-    app.use("/api/web", webRoutes )
-    app.use("/api/email-roles", emailRoleRoutes )
-    app.use('/api/contact-us', contactUsRoutes);
-    app.use('/api/category', categoryRoutes);
+app.use("/api/product", productRoutes )
+app.use("/api/web", webRoutes )
+app.use("/api/email-roles", emailRoleRoutes )
+app.use('/api/contact-us', contactUsRoutes);
+app.use('/api/category', categoryRoutes);
 } catch (err) {
-    console.error("❌ Failed to load /api/product:", err);
+  console.error("❌ Failed to load /api/product:", err);
 }
 
-
-if(process.env.NODE_ENV!=="production"){
-    app.use(express.static(path.join(__dirname,"../frontend/dist")));
-    
-
-    
-    // Resolve the parent folder (../)
-    const parentDir = path.resolve(__dirname, "../");
-    // Read and filter directories
-    const folders = fs.readdirSync(parentDir, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .map(dirent => dirent.name);
-    // Print them
-    console.log("📁 Folders in ../ :", folders);
+if(process.env?.NODE_ENV==="production"){
+    app.use(express.static(path.join(__dirname,"./frontend/dist")));
 
 
-
-    console.log(path.resolve(__dirname, "../frontend", "dist", "index.html"));
-    
-    app.get("/*",(req,res)=>{
-        console.log("✅ 4");
-        res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
+    app.get("*",(req,res)=>{
+        res.sendFile(path.resolve(__dirname,"frontend","dist","index.html"));
     })
 }
 
