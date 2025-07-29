@@ -17,6 +17,7 @@ import cookieParser from "cookie-parser"
 import cors from "cors";
 import path from 'path';
 import { fileURLToPath } from "url";
+import fs from "fs";
 
 // ✅ Fix for __dirname in ES Modules
 const __filename = fileURLToPath(import.meta.url);
@@ -75,6 +76,19 @@ try {
 if(process.env.NODE_ENV!=="production"){
     app.use(express.static(path.join(__dirname,"../frontend/dist")));
     
+
+    
+    // Resolve the parent folder (../)
+    const parentDir = path.resolve(__dirname, "../");
+    // Read and filter directories
+    const folders = fs.readdirSync(parentDir, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name);
+    // Print them
+    console.log("📁 Folders in ../ :", folders);
+
+
+
     console.log(path.resolve(__dirname, "../frontend", "dist", "index.html"));
     
     app.get("/*",(req,res)=>{
