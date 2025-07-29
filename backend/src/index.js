@@ -26,7 +26,7 @@ const __dirname = path.dirname(__filename);
 const app=express();
 
 dotenv.config();
-const PORT = process.env.PORT || 5001;
+const PORT = Number(process.env.PORT) || 5001;
 
 
 app.use(express.json());
