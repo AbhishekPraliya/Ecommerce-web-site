@@ -49,15 +49,24 @@ app.use(cors({
 
 try {
 app.use("/api/auth", authRoutes )
+console.log(1);
 app.use("/api/owner", ownerRoutes )
+console.log(2);
 app.use("/api/user", userRoutes )
+console.log(3);
 app.use("/api/seller", sellerRoutes )
+console.log(4);
 
 app.use("/api/product", productRoutes )
+console.log(5);
 app.use("/api/web", webRoutes )
+console.log(6);
 app.use("/api/email-roles", emailRoleRoutes )
+console.log(7);
 app.use('/api/contact-us', contactUsRoutes);
+console.log(8);
 app.use('/api/category', categoryRoutes);
+console.log(9);
 } catch (err) {
   console.error("❌ Failed to load /api/product:", err);
 }
@@ -74,7 +83,7 @@ if(process.env?.NODE_ENV==="production"){
 
 
 app.listen(PORT,()=>{
-    console.log("Hello Abhishek, Server is running on port - "+PORT);
+    console.log("Hello Abhishek, Server is running on port - ",PORT);
     connectDB();
 })
 
