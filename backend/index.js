@@ -1,16 +1,15 @@
 import express from "express"
-import authRoutes from "./routes/auth.route.js"
-import userRoutes from "./routes/user.route.js"
-import sellerRoutes from "./routes/seller.route.js"
-import ownerRoutes from "./routes/owner.route.js"
-import emailRoleRoutes from './routes/emailRole.route.js'
-import productRoutes from "./routes/product.route.js"
-import webRoutes from "./routes/web.route.js"
-import contactUsRoutes from './routes/contactUs.route.js';
-import categoryRoutes from './routes/category.route.js'
+import authRoutes from "./src/routes/auth.route.js"
+import userRoutes from "./src/routes/user.route.js"
+import sellerRoutes from "./src/routes/seller.route.js"
+import ownerRoutes from "./src/routes/owner.route.js"
+import emailRoleRoutes from './src/routes/emailRole.route.js'
+import productRoutes from "./src/routes/product.route.js"
+import webRoutes from "./src/routes/web.route.js"
+import contactUsRoutes from './src/routes/contactUs.route.js';
+import categoryRoutes from './src/routes/category.route.js'
 
-import {connectDB} from "./lib/db.js"
-console.log("k");
+import {connectDB} from "./src/lib/db.js"
 
 import dotenv from "dotenv"
 import cookieParser from "cookie-parser"
@@ -63,11 +62,11 @@ app.use('/api/category', categoryRoutes);
 }
 
 if(process.env?.NODE_ENV==="production"){
-    app.use(express.static(path.join(__dirname,"./frontend/dist")));
+    app.use(express.static(path.join(__dirname,"../frontend/dist")));
 
 
     app.get("*",(req,res)=>{
-        res.sendFile(path.resolve(__dirname,"frontend","dist","index.html"));
+        res.sendFile(path.join(__dirname,"../frontend/dist/index.html"));
     })
 }
 
